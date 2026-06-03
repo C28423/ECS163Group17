@@ -193,123 +193,47 @@ const page5 = svg0.append("g")
     //Button click functionality
         // NOTE - If you have text that needs to be clicked through: the buttons set pointer-events to auto.
         // You can define a class for the text and set pointer-events of that class to none after the first set to auto.
-    backButton.on("click", function() {
-        if (currentPage == 2) {
+    
+        function transitionToPage(targetPage) {
+            // Fade out current page
+            d3.selectAll(".page" + currentPage).transition()
+                .duration(750)
+                .style("opacity", 0)
+                .style("pointer-events", "none");
+
+            // Fade in target page
+            d3.selectAll(".page" + targetPage).transition()
+                .delay(1000)
+                .duration(2000)
+                .style("opacity", 100)
+                .style("pointer-events", "auto");
+
+            // Hides the back button if the target page is 1, otherwise shows it.
             d3.selectAll(".backButton, .backButtonText").transition()
                 .duration(750)
-                .style("opacity", 0)
-                .style("pointer-events", "none");
-            d3.selectAll(".page2").transition()
-                .duration(1000)
-                .style("opacity", 0)
-                .style("pointer-events", "none");
-            d3.selectAll(".page1").transition()
-                .delay(1000)
-                .duration(2000)
-                .style("opacity", 100)
-                .style("pointer-events", "auto");
-            currentPage = 1;
-        } else if (currentPage == 3) {
-            d3.selectAll(".page3").transition()
-                .duration(750)
-                .style("opacity", 0)
-                .style("pointer-events", "none");
-            d3.selectAll(".page2").transition()
-                .delay(1000)
-                .duration(2000)
-                .style("opacity", 100)
-                .style("pointer-events", "auto");
-            currentPage = 2;
-        } else if (currentPage == 4) {
-            d3.selectAll(".page4").transition()
-                .duration(750)
-                .style("opacity", 0)
-                .style("pointer-events", "none");
-            d3.selectAll(".page3").transition()
-                .delay(1000)
-                .duration(2000)
-                .style("opacity", 100)
-                .style("pointer-events", "auto");  
-            currentPage = 3;
-        } else if (currentPage == 5) {
-            d3.selectAll(".page5").transition()
-                .duration(750)
-                .style("opacity", 0)
-                .style("pointer-events", "none");
-            d3.selectAll(".page4").transition()
-                .delay(1000)
-                .duration(2000)
-                .style("opacity", 100)
-                .style("pointer-events", "auto");
-            d3.selectAll(".forwardButton").transition()
-                .duration(1000)
-                .style("opacity", 100)
-                .style("pointer-events", "auto");
-            d3.selectAll(".forwardButtonText").transition()
-                .duration(1000)
-                .style("opacity", 100);
-            currentPage = 4;
-        }
-    })
+                .style("opacity", targetPage === 1 ? 0 : 100)
+                .style("pointer-events", targetPage === 1 ? "none" : "auto");
 
-    forwardButton.on("click", function() {
-        if (currentPage == 1) {
-            d3.selectAll(".page1").transition()
-                .duration(750)
-                .style("opacity", 0)
-                .style("pointer-events", "none");
-            d3.selectAll(".page2").transition()
-                .delay(1000)
-                .duration(2000)
-                .style("opacity", 100)
-                .style("pointer-events", "auto");
-            d3.selectAll(".backButton").transition()
-                .duration(1000)
-                .style("opacity", 100)
-                .style("pointer-events", "auto");
-            d3.selectAll(".backButtonText").transition()
-                .duration(1000)
-                .style("opacity", 100);
-            currentPage = 2;
-        } else if (currentPage == 2) {
-            d3.selectAll(".page2").transition()
-                .duration(750)
-                .style("opacity", 0)
-                .style("pointer-events", "none");
-            d3.selectAll(".page3").transition()
-                .delay(1000)
-                .duration(2000)
-                .style("opacity", 100)
-                .style("pointer-events", "auto");
-            currentPage = 3;
-        } else if (currentPage == 3) {
-            d3.selectAll(".page3").transition()
-                .duration(750)
-                .style("opacity", 0)
-                .style("pointer-events", "none");
-            d3.selectAll(".page4").transition()
-                .delay(1000)
-                .duration(2000)
-                .style("opacity", 100)
-                .style("pointer-events", "auto");
-            currentPage = 4;
-        } else if (currentPage == 4) {
+            // Hides the forward button if the target page is 5, otherwise shows it.
             d3.selectAll(".forwardButton, .forwardButtonText").transition()
                 .duration(750)
-                .style("opacity", 0)
-                .style("pointer-events", "none");
-            d3.selectAll(".page4").transition()
-                .duration(750)
-                .style("opacity", 0)
-                .style("pointer-events", "none");
-            d3.selectAll(".page5").transition()
-                .delay(1000)
-                .duration(2000)
-                .style("opacity", 100)
-                .style("pointer-events", "auto");
-            currentPage = 5;
+                .style("opacity", targetPage === 5 ? 0 : 100)
+                .style("pointer-events", targetPage === 5 ? "none" : "auto");
+
+            currentPage = targetPage;
         }
-    })
+
+        backButton.on("click", function() {
+            if (currentPage > 1) {
+                transitionToPage(currentPage - 1);
+            }
+        });
+        forwardButton.on("click", function() {
+            if (currentPage < 5) {
+                transitionToPage(currentPage + 1);
+            }
+        });
+
     d3.selectAll(".forwardButton, .backButton").on("mouseover", function() {
         d3.select(this)
         .attr("fill", "#a5b6d2");
