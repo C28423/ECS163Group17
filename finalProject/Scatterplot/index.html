@@ -1,0 +1,246 @@
+<!doctype html>
+<html style="width:100%;height:100%;">
+<head>
+  <meta charset="utf-8">
+  <title>Lung Cancer Risk — Scatter Plot</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --bg:       #0b1120;
+      --surface:  #111827;
+      --border:   #1e293b;
+      --accent:   #38bdf8;
+      --red:      #f87171;
+      --green:    #4ade80;
+      --muted:    #64748b;
+      --text:     #e2e8f0;
+    }
+
+    html, body {
+      margin: 0; padding: 0;
+      width: 100%; height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 13px;
+    }
+
+    /*Header*/
+    header {
+      display: flex;
+      align-items: center;
+      padding: 10px 18px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    /*Controls row*/
+    #controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+    }
+
+    .ctrl-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ctrl-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    select {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 12px;
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 3px 8px;
+      cursor: pointer;
+      outline: none;
+    }
+    select:hover { border-color: var(--accent); }
+
+    /* Legend */
+    #legend {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      user-select: none;
+      font-size: 12px;
+      color: var(--text);
+      transition: opacity .15s;
+    }
+    .legend-item.dimmed { opacity: 0.35; }
+    .legend-swatch {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    /* Mode buttons */
+    .mode-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      padding: 3px 10px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      border-radius: 3px;
+      cursor: pointer;
+      letter-spacing: 0.04em;
+      transition: background .15s, color .15s;
+    }
+    .mode-btn:hover { color: var(--text); border-color: var(--accent); }
+    .mode-btn.active { background: var(--accent); color: #0b1120; border-color: var(--accent); font-weight: 600; }
+
+    #selected-info {
+      margin-left: auto;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* Main scatter panel*/
+    #panel-scatter {
+      display: flex;
+      flex-direction: column;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin: 10px;
+      height: calc(100vh - 62px - 20px);
+      overflow: hidden;
+    }
+
+    .panel-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--border);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .panel-title .hint {
+      font-weight: 400;
+      font-size: 10px;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
+    #scatter-svg {
+      flex: 1;
+      width: 100%;
+    }
+
+    /* Tooltip */
+    #tooltip {
+      position: fixed;
+      pointer-events: none;
+      background: #1e293b;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 12px;
+      line-height: 1.7;
+      max-width: 220px;
+      opacity: 0;
+      transition: opacity .1s;
+      z-index: 999;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+      color: var(--text);
+    }
+    #tooltip.show { opacity: 1; }
+    #tooltip strong {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 13px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    /* D3 brush styling */
+    .brush .selection {
+      fill: var(--accent);
+      fill-opacity: 0.12;
+      stroke: var(--accent);
+      stroke-width: 1;
+    }
+    .brush .handle { fill: var(--accent); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>⬡ Lung Cancer Risk</h1>
+
+  <div id="controls">
+    <div class="ctrl-group">
+      <span class="ctrl-label">X axis</span>
+      <select id="x-select"></select>
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Y axis</span>
+      <select id="y-select"></select>
+    </div>
+    <div class="ctrl-group">
+      <span class="ctrl-label">Show</span>
+      <div id="legend"></div>
+    </div>
+    <span id="selected-info"></span>
+  </div>
+</header>
+
+<div id="panel-scatter">
+  <div class="panel-title">
+    Scatter Plot
+    <div style="display:flex;gap:5px;margin-left:10px;">
+      <button class="mode-btn active" id="btn-brush">Brush</button>
+      <button class="mode-btn" id="btn-zoom">Zoom/Pan</button>
+      <button class="mode-btn" id="btn-reset">Reset</button>
+    </div>
+  </div>
+  <svg id="scatter-svg"></svg>
+</div>
+
+<div id="tooltip"></div>
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
