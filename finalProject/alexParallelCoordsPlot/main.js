@@ -118,6 +118,7 @@ d3.csv("../lung_cancer.csv")
         .append("line")
         .attr("y1", 0)
         .attr("y2", ph)
+        .attr("stroke", "#111")
         .attr("stroke-width", 2.5);
 
       // The lung cancer risk axis should only get 2 ticks (high and low).
@@ -142,6 +143,7 @@ d3.csv("../lung_cancer.csv")
 
       axG
         .selectAll(".domain, .tick line")
+        .attr("stroke", "#111")
         .attr("stroke-width", 1.5);
 
       axG
