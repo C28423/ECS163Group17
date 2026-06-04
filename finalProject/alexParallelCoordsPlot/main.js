@@ -1,3 +1,37 @@
+/**
+ * Lung Cancer Risk — Parallel Coordinates Plot
+ *
+ * Dataset: lung_cancer.csv (5000 patients)
+ * Feature selection: based on the logistic regression model output
+ * (lrModelLungCancer.csv). Features were ranked by absolute coefficient
+ * value, and the top continuous/ordinal features were selected.
+ * Pure binary (0/1) features were excluded because they collapse all
+ * lines onto just two positions, making the plot unreadable.
+ *
+ * Selected features and their LR coefficients (|coef| descending):
+ *   pack_years             +3.89  (strongest positive predictor)
+ *   age                    +2.85
+ *   crp_level              +2.58  (inflammation marker)
+ *   air_pollution_index    +2.27
+ *   fev1_x10               -2.03  (lung function; lower = worse)
+ *   smoking_years          +1.00
+ *   cigarettes_per_day     +0.99
+ *   oxygen_saturation      -0.79  (lower = worse)
+ *   exercise_hours_per_week -1.32 (protective factor)
+ *   lung_cancer_risk        outcome (0 = low risk, 1 = high risk)
+ *
+ * Because 5000 lines would be unreadable, a stratified random sample
+ * of 500 patients is used (250 high-risk, 250 low-risk) so both
+ * outcome groups are equally represented.
+ *
+ * Lines are colored by lung_cancer_risk:
+ *   red  (#d73027) = high risk (1)
+ *   blue (#4575b4) = low risk  (0)
+ *
+ * Interaction: brushing on any axis highlights matching lines and
+ * fades all others. Click outside the brush to clear it.
+ */
+
 const svg = d3.select("svg");
 const W = window.innerWidth;
 const H = window.innerHeight;
@@ -118,6 +152,7 @@ d3.csv("../lung_cancer.csv")
         .append("line")
         .attr("y1", 0)
         .attr("y2", ph)
+        .attr("stroke", "#111")
         .attr("stroke-width", 2.5);
 
       // The lung cancer risk axis should only get 2 ticks (high and low).
@@ -139,9 +174,11 @@ d3.csv("../lung_cancer.csv")
         .selectAll(".tick text")
         .attr("font-size", "11px")
         .attr("font-weight", "bold")
+        .attr("fill", "#111");
 
       axG
         .selectAll(".domain, .tick line")
+        .attr("stroke", "#111")
         .attr("stroke-width", 1.5);
 
       axG
@@ -150,6 +187,7 @@ d3.csv("../lung_cancer.csv")
         .attr("text-anchor", "middle")
         .attr("font-size", "12px")
         .attr("font-weight", "bold")
+        .attr("fill", "#222")
         .text(ax.label);
 
       // Create a brush for this axis
@@ -206,6 +244,7 @@ d3.csv("../lung_cancer.csv")
       .attr("text-anchor", "middle")
       .attr("font-size", "18px")
       .attr("font-weight", "bold")
+      .attr("fill", "#111")
       .text("Lung Cancer Risk Factors — Parallel Coordinates");
 
     // Brush instructions
@@ -233,6 +272,7 @@ d3.csv("../lung_cancer.csv")
       .attr("y", -5)
       .attr("font-size", "12px")
       .attr("font-weight", "bold")
+      .attr("fill", "#333")
       .text("Cancer Risk");
 
     legendData.forEach((item, i) => {
@@ -250,6 +290,7 @@ d3.csv("../lung_cancer.csv")
         .attr("x", 28)
         .attr("y", i * 20 + 14)
         .attr("font-size", "12px")
+        .attr("fill", "#333")
         .text(item.label);
     });
   })
