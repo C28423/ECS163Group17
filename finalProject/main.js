@@ -193,7 +193,7 @@ const page5 = svg0.append("g")
     //Button click functionality
         // NOTE - If you have text that needs to be clicked through: the buttons set pointer-events to auto.
         // You can define a class for the text and set pointer-events of that class to none after the first set to auto.
-    
+
         function transitionToPage(targetPage) {
             // Fade out current page
             d3.selectAll(".page" + currentPage).transition()
@@ -209,16 +209,22 @@ const page5 = svg0.append("g")
                 .style("pointer-events", "auto");
 
             // Hides the back button if the target page is 1, otherwise shows it.
-            d3.selectAll(".backButton, .backButtonText").transition()
+            d3.selectAll(".backButton").transition()
                 .duration(750)
                 .style("opacity", targetPage === 1 ? 0 : 100)
                 .style("pointer-events", targetPage === 1 ? "none" : "auto");
+            d3.selectAll(".backButtonText").transition()
+                .duration(750)
+                .style("opacity", targetPage === 1 ? 0 : 100);
 
             // Hides the forward button if the target page is 5, otherwise shows it.
-            d3.selectAll(".forwardButton, .forwardButtonText").transition()
+            d3.selectAll(".forwardButton").transition()
                 .duration(750)
                 .style("opacity", targetPage === 5 ? 0 : 100)
                 .style("pointer-events", targetPage === 5 ? "none" : "auto");
+            d3.selectAll(".forwardButtonText").transition()
+                .duration(750)
+                .style("opacity", targetPage === 5 ? 0 : 100);
 
             currentPage = targetPage;
         }
