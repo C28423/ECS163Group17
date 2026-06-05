@@ -46,34 +46,111 @@ const page1 = svg0.append("g")
         .attr("class", "page1")
         .attr("x", 50)
         .attr("y", 80)
-        .text("Predicting and Understanding Lung Cancer Risk")
+        .text("Lung Cancer Risk Factors")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
         .style("pointer-events", "none")
         .style("fill", "#f1e3dd")
         .style("opacity", 100);
 
-    const introContainer = page1.append("foreignObject")
+    page1.append("text")
         .attr("class", "page1")
         .attr("x", 50)
-        .attr("y", 130)
-        .attr("width", width - 300)
-        .attr("height", height - 200);
+        .attr("y", 150)
+        .text("Using a dataset of health metrics, we aim to visualize factors that affect lung cancer risk.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 100);
 
-    introContainer.append("xhtml:div")
-        .style("color", "#f1e3dd")
-        .style("font-family", "sans-serif")
-        .style("font-size", "16px")
-        .style("line-height", "1.6")
-        .html(`
-            <h3 style="color: #bccad6;">The Importance of Early Detection</h3>
-            <p>Lung cancer is one of the leading causes of cancer-related mortality worldwide. Because early stages are frequently asymptomatic, diagnoses often occur after the disease has advanced. By analyzing clinical data—ranging from behavioral habits like <strong>smoking history</strong> to physiological indicators like <strong>Age</strong> and <strong>O2 Saturation</strong> we can identify patterns that signal elevated risk early.</p>
-            
-            <h3 style="color: #bccad6;">Processing the Data: Logistic Regression</h3>
-            <p>To classify whether a patient falls into a <strong>High Risk</strong> or <strong>Low Risk</strong> category, we utilized a Logistic Regression model. Unlike linear regression, which predicts continuous numbers, logistic regression calculates the probability (between 0 and 1) that a given patient belongs to a specific group based on their metrics. If the probability hits or crosses the 0.5 threshold, they are flagged as High Risk.</p>
-            <h3 style="color: #bccad6;">What you will see in this project:</h3>
-            <p>text</p>
-        `);
+    page1.append("text")
+        .attr("class", "page1")
+        .attr("x", 50)
+        .attr("y", 200)
+        .text("We've used the dataset to train a logistic regression machine learning model. This works by feeding the model data from the dataset,")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 100);
+
+    page1.append("text")
+        .attr("class", "page1")
+        .attr("x", 50)
+        .attr("y", 230)
+        .text("and it learns which features can be used to predict lung cancer risk based on the target variable. This is expressed through coefficients,")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 100);
+
+    page1.append("text")
+        .attr("class", "page1")
+        .attr("x", 50)
+        .attr("y", 260)
+        .text("which represent significance in the outcome, and odds ratios, which communicate whether a higher value increases or decreases lung cancer")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 100);
+
+    page1.append("text")
+        .attr("class", "page1")
+        .attr("x", 50)
+        .attr("y", 290)
+        .text("risk based on whether the ratio is above or below 1.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 100);
+
+    page1.append("text")
+        .attr("class", "page1")
+        .attr("x", 50)
+        .attr("y", 340)
+        .text("Based on the model's coefficients & odds ratios, we've identified top contributing factors.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 100);
+
+    page1.append("text")
+        .attr("class", "page1")
+        .attr("x", 50)
+        .attr("y", 400)
+        .text("In parallel coordinate plot 1, we visualize some of these top factors and show their connection to lung cancer risk.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 100);
+
+    page1.append("text")
+        .attr("class", "page1")
+        .attr("x", 50)
+        .attr("y", 440)
+        .text("In parallel coordinate plot 2, we visualize coefficients of different factors, to compare them.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 100);
+
+    page1.append("text")
+        .attr("class", "page1")
+        .attr("x", 50)
+        .attr("y", 480)
+        .text("In our scatterplot, we compare different features against each other to get an idea of how they interact.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 100);
 
     //CONTENT FOR PAGE 1 END
 
