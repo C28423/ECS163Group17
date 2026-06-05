@@ -173,6 +173,160 @@ const page2 = svg0.append("g")
         .style("fill", "#f1e3dd")
         .style("opacity", 0);
 
+        page2.append("text")
+        .attr("class", "page2")
+        .attr("x", 50)
+        .attr("y", 150)
+        .text("From our data, we've determined that the following factors contribute most to a risk of lung cancer:")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+
+    page2.append("text")
+        .attr("class", "page2")
+        .attr("x", 80)
+        .attr("y", 200)
+        .text("Age: Older individuals tend to be higher risk, likely due to cumulative exposure to risk factors and age-related decline in lung function.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+
+    page2.append("text")
+        .attr("class", "page2")
+        .attr("x", 80)
+        .attr("y", 240)
+        .text("Smoking Years: The number of years a patient has smoked.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+
+    page2.append("text")
+        .attr("class", "page2")
+        .attr("x", 80)
+        .attr("y", 280)
+        .text("Ciggarettes Per Day: The average number of cigarettes a patient smokes per day.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+
+    page2.append("text")
+        .attr("class", "page2")
+        .attr("x", 80)
+        .attr("y", 320)
+        .text("Pack Years: A cumulative measurement which estimates a person's total lifetime exposure to cigarette smoking")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+
+    page2.append("text")
+        .attr("class", "page2")
+        .attr("x", 80)
+        .attr("y", 360)
+        .text("Air Pollution Index: The level of air pollution in a patient's environment.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+
+    page2.append("text")
+        .attr("class", "page2")
+        .attr("x", 80)
+        .attr("y", 400)
+        .text("BMI: Body Mass Index, a measure of body fat based on height and weight.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+
+    page2.append("text")
+        .attr("class", "page2")
+        .attr("x", 80)
+        .attr("y", 440)
+        .text("O2 Saturation: The percentage of oxygen in a patient's blood.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+
+    page2.append("text")
+        .attr("class", "page2")
+        .attr("x", 80)
+        .attr("y", 480)
+        .text("FEV1: Forced Expiratory Volume in 1 second, a measure of lung capacity and function.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+      
+    page2.append("text")
+        .attr("class", "page2")
+        .attr("x", 80)
+        .attr("y", 520)
+        .text("CRP Level: C-reactive protein level, higher levels suggest increased inflammatory activity or risk of certain diseases.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+    
+    page2.append("text")
+        .attr("class", "page2")
+        .attr("x", 80)
+        .attr("y", 560)
+        .text("Exercise Hours Per Week: The average number of hours a patient exercises per week.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+    
+    page2.append("text")
+        .attr("class", "page2")
+        .attr("x", 80)
+        .attr("y", 600)
+        .text("Exercise Hours Per Week: The average number of hours a patient exercises per week.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+
+    page2.append("text")
+        .attr("class", "page2")
+        .attr("x", 80)
+        .attr("y", 640)
+        .text("Alcohol Units Per Week: The average amount of alcohol a patient consumes per week.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+    
+    page2.append("text")
+        .attr("class", "page2")
+        .attr("x", 80)
+        .attr("y", 680)
+        .text("Education Years: The number of years of education a patient has completed.")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+
     //CONTENT FOR PAGE 2 END
 
 const page3 = svg0.append("g")
