@@ -152,6 +152,7 @@ d3.csv("../lung_cancer.csv")
         .attr("text-anchor", "middle")
         .attr("font-size", "12px")
         .attr("font-weight", "bold")
+        .attr("fill", "#111")
         .text(ax.label);
 
       // Create a brush for this axis
