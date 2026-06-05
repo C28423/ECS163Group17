@@ -46,12 +46,34 @@ const page1 = svg0.append("g")
         .attr("class", "page1")
         .attr("x", 50)
         .attr("y", 80)
-        .text("TEXT FOR PAGE 1")
+        .text("Predicting and Understanding Lung Cancer Risk")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
         .style("pointer-events", "none")
         .style("fill", "#f1e3dd")
         .style("opacity", 100);
+
+    const introContainer = page1.append("foreignObject")
+        .attr("class", "page1")
+        .attr("x", 50)
+        .attr("y", 130)
+        .attr("width", width - 300)
+        .attr("height", height - 200);
+
+    introContainer.append("xhtml:div")
+        .style("color", "#f1e3dd")
+        .style("font-family", "sans-serif")
+        .style("font-size", "16px")
+        .style("line-height", "1.6")
+        .html(`
+            <h3 style="color: #bccad6;">The Importance of Early Detection</h3>
+            <p>Lung cancer is one of the leading causes of cancer-related mortality worldwide. Because early stages are frequently asymptomatic, diagnoses often occur after the disease has advanced. By analyzing clinical data—ranging from behavioral habits like <strong>smoking history</strong> to physiological indicators like <strong>Age</strong> and <strong>O2 Saturation</strong> we can identify patterns that signal elevated risk early.</p>
+            
+            <h3 style="color: #bccad6;">Processing the Data: Logistic Regression</h3>
+            <p>To classify whether a patient falls into a <strong>High Risk</strong> or <strong>Low Risk</strong> category, we utilized a Logistic Regression model. Unlike linear regression, which predicts continuous numbers, logistic regression calculates the probability (between 0 and 1) that a given patient belongs to a specific group based on their metrics. If the probability hits or crosses the 0.5 threshold, they are flagged as High Risk.</p>
+            <h3 style="color: #bccad6;">What you will see in this project:</h3>
+            <p>text</p>
+        `);
 
     //CONTENT FOR PAGE 1 END
 
@@ -67,7 +89,7 @@ const page2 = svg0.append("g")
         .attr("class", "page2")
         .attr("x", 50)
         .attr("y", 80)
-        .text("TEXT FOR PAGE 2")
+        .text("Understanding the Data: Key Risk Factors for Lung Cancer")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
         .style("pointer-events", "none")
