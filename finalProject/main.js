@@ -910,8 +910,8 @@ const page6 = svg0.append("g")
 // Define 2 colors to represent the outputs:
 // red for high risk, blue for low risk
 const riskColor = {
-  1: "#d73027",
-  0: "#4575b4",
+  1: "#f87171",
+  0: "#4ade80",
 };
 
 // Define the axes that will be displayed on the parallel
