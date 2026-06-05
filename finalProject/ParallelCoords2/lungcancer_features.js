@@ -1,4 +1,4 @@
-d3.csv("lrModelLungCancer.csv").then(data => {
+d3.csv("../lrModelLungCancer.csv").then(data => {
 
     console.log("data loaded", data);
 
