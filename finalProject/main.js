@@ -124,8 +124,7 @@ const page5 = svg0.append("g")
     .attr("weight", width - 200)
     .attr("transform", `translate(100, 0)`);
 
-    //Page 5 - Interactive Dashboard. Big page with the interative scatterplot & parallel coordinate chart.
-    //NOTE - if they don't fit nicely on the same page, we can make another 'slide' and split it.
+    //Page 5 - Scatterplot
     //CONTENT FOR PAGE 5 START
     page5.append("text")
         .attr("class", "page5")
@@ -139,6 +138,48 @@ const page5 = svg0.append("g")
         .style("opacity", 0);
 
     //CONTENT FOR PAGE 5 END
+
+const page6 = svg0.append("g")
+    .attr("class", "page6")
+    .attr("height", height)
+    .attr("weight", width - 200)
+    .attr("transform", `translate(100, 0)`);
+
+    //Page 6 - Parallel Coordinates 1
+    //CONTENT FOR PAGE 6 START
+    page6.append("text")
+        .attr("class", "page6")
+        .attr("x", 50)
+        .attr("y", 80)
+        .text("TEXT FOR PAGE 6")
+        .style("font-size", "50px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+
+    //CONTENT FOR PAGE 6 END
+
+const page7 = svg0.append("g")
+    .attr("class", "page7")
+    .attr("height", height)
+    .attr("weight", width - 200)
+    .attr("transform", `translate(100, 0)`);
+
+    //Page 7 - Parallel Coordinates 2
+    //CONTENT FOR PAGE 7 START
+    page7.append("text")
+        .attr("class", "page7")
+        .attr("x", 50)
+        .attr("y", 80)
+        .text("TEXT FOR PAGE 7")
+        .style("font-size", "50px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+
+    //CONTENT FOR PAGE 7 END
 
     //Buttons
     const backButton = svg0.append("rect")
@@ -217,14 +258,14 @@ const page5 = svg0.append("g")
                 .duration(750)
                 .style("opacity", targetPage === 1 ? 0 : 100);
 
-            // Hides the forward button if the target page is 5, otherwise shows it.
+            // Hides the forward button if the target page is 7, otherwise shows it.
             d3.selectAll(".forwardButton").transition()
                 .duration(750)
-                .style("opacity", targetPage === 5 ? 0 : 100)
-                .style("pointer-events", targetPage === 5 ? "none" : "auto");
+                .style("opacity", targetPage === 7 ? 0 : 100)
+                .style("pointer-events", targetPage === 7 ? "none" : "auto");
             d3.selectAll(".forwardButtonText").transition()
                 .duration(750)
-                .style("opacity", targetPage === 5 ? 0 : 100);
+                .style("opacity", targetPage === 7 ? 0 : 100);
 
             currentPage = targetPage;
         }
@@ -235,7 +276,7 @@ const page5 = svg0.append("g")
             }
         });
         forwardButton.on("click", function() {
-            if (currentPage < 5) {
+            if (currentPage < 7) {
                 transitionToPage(currentPage + 1);
             }
         });
