@@ -377,18 +377,513 @@ const page5 = svg0.append("g")
     .attr("weight", width - 200)
     .attr("transform", `translate(100, 0)`);
 
-    //Page 5 - Scatterplot
-    //CONTENT FOR PAGE 5 START
     page5.append("text")
         .attr("class", "page5")
         .attr("x", 50)
-        .attr("y", 80)
-        .text("TEXT FOR PAGE 5")
-        .style("font-size", "50px")
+        .attr("y", height - 110)
+        .text("CAPTION FOR PAGE 5")
+        .style("font-size", "20px")
         .attr("alignment-baseline","middle")
         .style("pointer-events", "none")
         .style("fill", "#f1e3dd")
         .style("opacity", 0);
+
+    //Page 5 - Scatterplot
+    //CONTENT FOR PAGE 5 START
+
+    const RISK_COLORS = { 0: "#4ade80", 1: "#f87171" };
+    const RISK_LABELS  = { 0: "Not Elevated Lung Cancer Risk", 1: "Elevated Lung Cancer Risk" };
+ 
+    const NUMERIC_FIELDS = [
+        "age", "smoking_years", "cigarettes_per_day", "pack_years",
+        "air_pollution_index", "bmi", "oxygen_saturation",
+        "fev1_x10", "crp_level", "exercise_hours_per_week",
+        "alcohol_units_per_week", "education_years"
+    ];
+    const FIELD_LABELS = {
+        age: "Age",
+        smoking_years: "Smoking Years",
+        cigarettes_per_day: "Cigarettes/Day",
+        pack_years: "Pack Years",
+        air_pollution_index: "Air Pollution Index",
+        bmi: "BMI",
+        oxygen_saturation: "O₂ Saturation (%)",
+        fev1_x10: "FEV1 ×10",
+        crp_level: "CRP Level",
+        exercise_hours_per_week: "Exercise Hrs/Week",
+        alcohol_units_per_week: "Alcohol Units/Week",
+        education_years: "Education Years",
+    };
+ 
+    // Scatterplot state
+    let scAllData    = [];
+    let scBrushedIDs = new Set();
+    let scActiveRisks = new Set([0, 1]);
+    let scXField = "pack_years";
+    let scYField = "age";
+    let scXS, scYS, scXSBase, scYSBase, scG, scSvg;
+    let scW, scH;
+    let scMode = "brush";
+    let scZoomTransform = d3.zoomIdentity;
+    let scZoomBehaviour;
+    const SC_M = { top: 60, right: 30, bottom: 110, left: 80 };
+ 
+    // ── Tooltip (HTML overlay, shown on top of SVG) ──
+    const scTipDiv = d3.select("body").append("div")
+        .attr("id", "sc-tooltip")
+        .style("position", "fixed")
+        .style("background", "#1e293b")
+        .style("color", "#f1e3dd")
+        .style("border", "1px solid #334155")
+        .style("border-radius", "6px")
+        .style("padding", "8px 12px")
+        .style("font-size", "13px")
+        .style("pointer-events", "none")
+        .style("display", "none")
+        .style("z-index", "999");
+ 
+    function scShowTip(html, event) {
+        scTipDiv.html(html).style("display", "block");
+        scMoveTip(event);
+    }
+    function scMoveTip(event) {
+        let x = event.clientX + 14, y = event.clientY - 10;
+        if (x + 240 > window.innerWidth)  x = event.clientX - 250;
+        if (y + 120 > window.innerHeight) y = event.clientY - 120;
+        scTipDiv.style("left", x + "px").style("top", y + "px");
+    }
+    function scHideTip() { scTipDiv.style("display", "none"); }
+ 
+    function scVisibleData() {
+        return scAllData.filter(d => scActiveRisks.has(d.lung_cancer_risk));
+    }
+    function scIsHighlighted(d) {
+        return scBrushedIDs.size === 0 || scBrushedIDs.has(d._id);
+    }
+ 
+    // Page title 
+    page5.append("text")
+        .attr("class", "page5")
+        .attr("x", 50)
+        .attr("y", 35)
+        .text("Interactive Scatterplot: Feature Comparison")
+        .style("font-size", "32px")
+        .attr("alignment-baseline", "middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+    page5.append("text")
+        .attr("class", "page5")
+        .attr("x", 50)
+        .attr("y", 60)
+        .text("Hover over a dot to view a patient's health metrics. Green dots represent patients not at elevated risk, red dots represent patients at elevated risk.")
+        .style("font-size", "16px")
+        .attr("alignment-baseline", "middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3ddde")
+        .style("opacity", 0);
+ 
+    const controlsHeight = 52;
+    const controlsFO = page5.append("foreignObject")
+        .attr("class", "page5")
+        .attr("x", 50)
+        .attr("y", 70)
+        .attr("width", width - 220)
+        .attr("height", controlsHeight)
+        .style("opacity", 0)
+        .style("pointer-events", "none");
+ 
+    const controlsDiv = controlsFO.append("xhtml:div")
+        .style("display", "flex")
+        .style("align-items", "center")
+        .style("gap", "18px")
+        .style("font-family", "sans-serif")
+        .style("font-size", "14px")
+        .style("color", "#f1e3dd");
+ 
+    // Helper
+    function makeSelectEl(defaultField) {
+        const sel = controlsDiv.append("xhtml:select")
+            .style("background", "#334155")
+            .style("color", "#f1e3dd")
+            .style("border", "1px solid #475569")
+            .style("border-radius", "4px")
+            .style("padding", "4px 8px")
+            .style("font-size", "13px")
+            .style("cursor", "pointer");
+        NUMERIC_FIELDS.forEach(f => {
+            sel.append("xhtml:option")
+                .attr("value", f)
+                .property("selected", f === defaultField)
+                .text(FIELD_LABELS[f] || f);
+        });
+        return sel;
+    }
+ 
+    controlsDiv.append("xhtml:span").text("X Axis:");
+    const xSelectEl = makeSelectEl("pack_years");
+ 
+    controlsDiv.append("xhtml:span").text("Y Axis:");
+    const ySelectEl = makeSelectEl("age");
+ 
+    // Divider
+    controlsDiv.append("xhtml:span")
+        .style("border-left", "1px solid #475569")
+        .style("height", "28px")
+        .style("margin", "0 4px");
+ 
+    // Legend/risk toggles
+    [0, 1].forEach(risk => {
+        const lbl = controlsDiv.append("xhtml:label")
+            .style("display", "flex")
+            .style("align-items", "center")
+            .style("gap", "6px")
+            .style("cursor", "pointer")
+            .attr("id", `sc-legend-${risk}`);
+ 
+        lbl.append("xhtml:span")
+            .style("display", "inline-block")
+            .style("width", "14px")
+            .style("height", "14px")
+            .style("border-radius", "50%")
+            .style("background", RISK_COLORS[risk]);
+ 
+        const cb = lbl.append("xhtml:input")
+            .attr("type", "checkbox")
+            .property("checked", true)
+            .style("display", "none");
+ 
+        lbl.append("xhtml:span").text(RISK_LABELS[risk]);
+ 
+        lbl.on("click", function() {
+            const node = cb.node();
+            node.checked = !node.checked;
+            if (node.checked) scActiveRisks.add(risk);
+            else              scActiveRisks.delete(risk);
+            lbl.style("opacity", node.checked ? "1" : "0.4");
+            scBrushedIDs.clear();
+            scUpdateScatter();
+            scUpdateInfo();
+        });
+    });
+ 
+    // Divider
+    controlsDiv.append("xhtml:span")
+        .style("border-left", "1px solid #475569")
+        .style("height", "28px")
+        .style("margin", "0 4px");
+ 
+    // Mode buttons
+    function modeBtn(label, id) {
+        return controlsDiv.append("xhtml:button")
+            .attr("id", id)
+            .text(label)
+            .style("background", "#334155")
+            .style("color", "#f1e3dd")
+            .style("border", "1px solid #475569")
+            .style("border-radius", "4px")
+            .style("padding", "4px 12px")
+            .style("font-size", "13px")
+            .style("cursor", "pointer");
+    }
+    const btnBrush = modeBtn("Brush", "sc-btn-brush");
+    const btnZoom  = modeBtn("Zoom",  "sc-btn-zoom");
+    const btnReset = modeBtn("Reset", "sc-btn-reset");
+ 
+    // Info text
+    const infoFO = page5.append("foreignObject")
+        .attr("class", "page5")
+        .attr("x", 1600)
+        .attr("y", 100)
+        .attr("width", width - 220)
+        .attr("height", 40)
+        .style("opacity", 0)
+        .style("pointer-events", "none");
+ 
+    const infoDiv = infoFO.append("xhtml:div")
+        .attr("id", "sc-info")
+        .style("font-family", "sans-serif")
+        .style("font-size", "13px")
+        .style("color", "#94a3b8");
+ 
+    // SVG chart area 
+    scW = width - 220 - SC_M.left - SC_M.right;
+    scH = height - controlsHeight - 70 - SC_M.top - SC_M.bottom - 60;
+ 
+    // Clip-path def 
+    svg0.append("defs").append("clipPath").attr("id", "sc-clip")
+        .append("rect").attr("width", scW).attr("height", scH);
+ 
+    scSvg = page5.append("g")
+        .attr("class", "page5")
+        .attr("transform", `translate(${50 + SC_M.left}, ${20 + controlsHeight + SC_M.top})`);
+ 
+    scG = scSvg;
+ 
+    // Build scales & axes
+    function scBuildScalesAndAxes() {
+        const xExt = d3.extent(scAllData, d => d[scXField]);
+        const yExt = d3.extent(scAllData, d => d[scYField]);
+        const xPad = (xExt[1] - xExt[0]) * 0.05 || 1;
+        const yPad = (yExt[1] - yExt[0]) * 0.05 || 1;
+ 
+        scXSBase = d3.scaleLinear()
+            .domain([xExt[0] - xPad, xExt[1] + xPad]).range([0, scW]);
+        scYSBase = d3.scaleLinear()
+            .domain([yExt[0] - yPad, yExt[1] + yPad]).range([scH, 0]);
+        scXS = scXSBase.copy();
+        scYS = scYSBase.copy();
+ 
+        function scStyleAxis(g) {
+            g.selectAll("text").attr("fill", "#000000").attr("font-size", "11px");
+            g.selectAll("line, path").attr("stroke", "#000000");
+        }
+ 
+        if (scG.select(".sc-x-axis").empty()) {
+            scG.append("g").attr("class", "sc-x-axis")
+                .attr("transform", `translate(0,${scH})`)
+                .call(d3.axisBottom(scXS).ticks(6)).call(scStyleAxis);
+ 
+            scG.append("text").attr("class", "sc-xlabel")
+                .attr("x", scW / 2).attr("y", scH + 52)
+                .attr("text-anchor", "middle")
+                .attr("fill", "#000000").attr("font-size", "13px");
+ 
+            scG.append("g").attr("class", "sc-y-axis")
+                .call(d3.axisLeft(scYS).ticks(6)).call(scStyleAxis);
+ 
+            scG.append("text").attr("class", "sc-ylabel")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -scH / 2).attr("y", -58)
+                .attr("text-anchor", "middle")
+                .attr("fill", "#000000").attr("font-size", "13px");
+        } else {
+            scG.select(".sc-x-axis").transition().duration(400)
+                .call(d3.axisBottom(scXS).ticks(6)).call(scStyleAxis);
+            scG.select(".sc-y-axis").transition().duration(400)
+                .call(d3.axisLeft(scYS).ticks(6)).call(scStyleAxis);
+        }
+        scG.select(".sc-xlabel").text(FIELD_LABELS[scXField] || scXField);
+        scG.select(".sc-ylabel").text(FIELD_LABELS[scYField] || scYField);
+    }
+ 
+    // ── Dots ──
+    function scUpdateDots() {
+        const vis = scVisibleData();
+        const dots = scG.select(".sc-dots").selectAll("circle")
+            .data(vis, d => d._id);
+ 
+        dots.enter().append("circle")
+            .attr("cx", d => scXS(d[scXField]))
+            .attr("cy", d => scYS(d[scYField]))
+            .attr("r", 0)
+            .attr("fill", d => RISK_COLORS[d.lung_cancer_risk])
+            .attr("opacity", 0)
+            .attr("stroke", "#0f172a")
+            .attr("stroke-width", 0.5)
+            .on("mouseover", function(d) {
+                const event = d3.event;
+                d3.select(this).raise().transition().duration(80).attr("r", 7);
+                scShowTip(`
+                    <strong>${RISK_LABELS[d.lung_cancer_risk]}</strong><br>
+                    Age: ${d.age} · BMI: ${d.bmi}<br>
+                    Pack Yrs: ${d.pack_years} · Cigs/Day: ${d.cigarettes_per_day}<br>
+                    O₂ Sat: ${d.oxygen_saturation}% · CRP: ${d.crp_level}<br>
+                    Air Pollution: ${d.air_pollution_index}
+                `, event);
+            })
+            .on("mousemove", function() { scMoveTip(d3.event); })
+            .on("mouseout", function(d) {
+                d3.select(this).transition().duration(80)
+                    .attr("r", scIsHighlighted(d) ? 4.5 : 3);
+                scHideTip();
+            })
+            .transition().duration(400)
+            .attr("r", 4.5)
+            .attr("opacity", d => scIsHighlighted(d) ? 0.82 : 0.1);
+ 
+        dots.transition().duration(300)
+            .attr("cx", d => scXS(d[scXField]))
+            .attr("cy", d => scYS(d[scYField]))
+            .attr("fill", d => RISK_COLORS[d.lung_cancer_risk])
+            .attr("opacity", d => scIsHighlighted(d) ? 0.82 : 0.1)
+            .attr("r", d => scIsHighlighted(d) ? 4.5 : 3);
+ 
+        dots.exit().transition().duration(300)
+            .attr("r", 0).attr("opacity", 0).remove();
+    }
+ 
+    function scUpdateScatter() { scUpdateDots(); }
+ 
+    //Selection info
+    function scUpdateInfo() {
+        const vis = scVisibleData();
+        const node = document.getElementById("sc-info");
+        if (!node) return;
+        if (scBrushedIDs.size > 0) {
+            const atRisk = [...scBrushedIDs].filter(id => {
+                const d = scAllData.find(r => r._id === id);
+                return d && d.lung_cancer_risk === 1;
+            }).length;
+            node.textContent = `${scBrushedIDs.size} selected · ${atRisk} at risk`;
+            node.style.color = "#f87171";
+        } else {
+            const atRisk = vis.filter(d => d.lung_cancer_risk === 1).length;
+            const pct = vis.length ? Math.round(atRisk / vis.length * 100) : 0;
+            node.textContent = `${vis.length} patients · ${atRisk} at risk (${pct}%)`;
+            node.style.color = "#94a3b8";
+        }
+    }
+ 
+    // Set interaction mode
+    function scSetMode(mode) {
+        scMode = mode;
+        scG.select(".sc-brush")
+            .style("pointer-events", mode === "brush" ? "all" : "none")
+            .style("display", mode === "brush" ? null : "none");
+        scG.select(".sc-zoom-rect")
+            .style("display", mode === "zoom" ? null : "none");
+        btnBrush.style("background", mode === "brush" ? "#4f6a8f" : "#334155");
+        btnZoom.style("background",  mode === "zoom"  ? "#4f6a8f" : "#334155");
+    }
+ 
+    //Reset zoom
+    function scResetZoom() {
+        scZoomTransform = d3.zoomIdentity;
+        scXS = scXSBase.copy();
+        scYS = scYSBase.copy();
+        scG.select(".sc-zoom-rect").call(scZoomBehaviour.transform, d3.zoomIdentity);
+ 
+        function scStyleAxis(g) {
+            g.selectAll("text").attr("fill", "#000000").attr("font-size", "11px");
+            g.selectAll("line, path").attr("stroke", "#000000");
+        }
+        scG.select(".sc-x-axis").transition().duration(500)
+            .call(d3.axisBottom(scXS).ticks(6)).call(scStyleAxis);
+        scG.select(".sc-y-axis").transition().duration(500)
+            .call(d3.axisLeft(scYS).ticks(6)).call(scStyleAxis);
+        scG.select(".sc-dots").selectAll("circle")
+            .transition().duration(500)
+            .attr("cx", d => scXS(d[scXField]))
+            .attr("cy", d => scYS(d[scYField]));
+    }
+ 
+    //Rebuild after axis change
+    function scRebuild() {
+        scZoomTransform = d3.zoomIdentity;
+        scBuildScalesAndAxes();
+        scG.select(".sc-zoom-rect").call(scZoomBehaviour.transform, d3.zoomIdentity);
+        scUpdateDots();
+    }
+ 
+    // Build the full scatter
+    function scBuild() {
+        scBuildScalesAndAxes();
+ 
+        // Dots layer
+        scG.append("g").attr("class", "sc-dots")
+            .attr("clip-path", "url(#sc-clip)");
+        scUpdateDots();
+ 
+        // Brush
+        const brush = d3.brush()
+            .extent([[0, 0], [scW, scH]])
+            .on("start brush", function() {
+                const sel = d3.event.selection;
+                if (!sel) return;
+                const [[x0, y0], [x1, y1]] = sel;
+                scBrushedIDs.clear();
+                scVisibleData().forEach(d => {
+                    const cx = scXS(d[scXField]), cy = scYS(d[scYField]);
+                    if (cx >= x0 && cx <= x1 && cy >= y0 && cy <= y1)
+                        scBrushedIDs.add(d._id);
+                });
+                scUpdateScatter();
+                scUpdateInfo();
+            })
+            .on("end", function() {
+                if (!d3.event.selection) {
+                    scBrushedIDs.clear();
+                    scUpdateScatter();
+                    scUpdateInfo();
+                }
+            });
+ 
+        scG.append("g").attr("class", "sc-brush").call(brush);
+ 
+        // Zoom
+        scZoomBehaviour = d3.zoom()
+            .scaleExtent([0.5, 12])
+            .translateExtent([[-scW, -scH], [2 * scW, 2 * scH]])
+            .on("zoom", function() {
+                function scStyleAxis(g) {
+                    g.selectAll("text").attr("fill", "#000000").attr("font-size", "11px");
+                    g.selectAll("line, path").attr("stroke", "#000000");
+                }
+                scZoomTransform = d3.event.transform;
+                scXS = scZoomTransform.rescaleX(scXSBase);
+                scYS = scZoomTransform.rescaleY(scYSBase);
+                scG.select(".sc-x-axis").transition().duration(0)
+                    .call(d3.axisBottom(scXS).ticks(6)).call(scStyleAxis);
+                scG.select(".sc-y-axis").transition().duration(0)
+                    .call(d3.axisLeft(scYS).ticks(6)).call(scStyleAxis);
+                scG.select(".sc-dots").selectAll("circle")
+                    .attr("cx", d => scXS(d[scXField]))
+                    .attr("cy", d => scYS(d[scYField]));
+            });
+ 
+        scG.append("rect").attr("class", "sc-zoom-rect")
+            .attr("width", scW).attr("height", scH)
+            .attr("fill", "transparent")
+            .style("display", "none")
+            .call(scZoomBehaviour);
+ 
+        // Wire up controls
+        xSelectEl.on("change", function() {
+            scXField = this.value;
+            scBrushedIDs.clear();
+            scRebuild();
+            scUpdateInfo();
+        });
+        ySelectEl.on("change", function() {
+            scYField = this.value;
+            scBrushedIDs.clear();
+            scRebuild();
+            scUpdateInfo();
+        });
+ 
+        btnBrush.on("click", function() { scSetMode("brush"); });
+        btnZoom.on("click",  function() { scSetMode("zoom"); });
+        btnReset.on("click", function() { scResetZoom(); });
+ 
+        // Default: brush mode active
+        scSetMode("brush");
+        scUpdateInfo();
+    }
+ 
+    // Load data for scatter
+    d3.csv("lung_cancer.csv").then(function(raw) {
+        const numFields = [
+            "age","gender","education_years","income_level","smoker","smoking_years",
+            "cigarettes_per_day","pack_years","passive_smoking","air_pollution_index",
+            "occupational_exposure","radon_exposure","family_history_cancer","copd",
+            "asthma","previous_tb","chronic_cough","chest_pain","shortness_of_breath",
+            "fatigue","bmi","oxygen_saturation","fev1_x10","crp_level","xray_abnormal",
+            "exercise_hours_per_week","diet_quality","alcohol_units_per_week",
+            "healthcare_access","lung_cancer_risk"
+        ];
+        raw.forEach(function(d, i) {
+            numFields.forEach(function(f) { d[f] = +d[f]; });
+            d._id = i;
+        });
+        scAllData = raw;
+        scBuild();
+    }).catch(function(err) {
+        console.error("Error loading lung_cancer.csv for scatter:", err);
+    });
+ 
+    // Start page5 hidden
+    d3.selectAll(".page5").style("opacity", 0).style("pointer-events", "none");
 
     //CONTENT FOR PAGE 5 END
 
