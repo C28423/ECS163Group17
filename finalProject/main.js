@@ -381,18 +381,7 @@ const page5 = svg0.append("g")
         .attr("class", "page5")
         .attr("x", 50)
         .attr("y", height - 110)
-        .text("Feature interaction scatterplot:")
-        .style("font-size", "20px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-
-    page5.append("text")
-        .attr("class", "page5")
-        .attr("x", 50)
-        .attr("y", height - 80)
-        .text("Puts one feature on the x axis and one on the y. This allows analysis of lung cancer risk with multiple variables. The combination of two features can increase risk more than one on its own.")
+        .text("Interactive Scatterplot, Green dots represent patients not at elevated risk, red dots represent patients at elevated risk.")
         .style("font-size", "20px")
         .attr("alignment-baseline","middle")
         .style("pointer-events", "none")
@@ -487,7 +476,7 @@ const page5 = svg0.append("g")
         .attr("class", "page5")
         .attr("x", 50)
         .attr("y", 60)
-        .text("Toggle patient visibility through the legend, selected patients will be hidden. Green dots represent patients not at elevated risk, red dots represent patients at elevated risk.")
+        .text("Click and drag to select points. Use the controls to change axes and filter by risk.")
         .style("font-size", "16px")
         .attr("alignment-baseline", "middle")
         .style("pointer-events", "none")
@@ -909,12 +898,12 @@ const page6 = svg0.append("g")
     page6.append("text")
         .attr("class", "page6")
         .attr("x", 50)
-        .attr("y", height - 110)
-        .text("Parallel Coordinates 1:")
+        .attr("y", height - 60)
+        .text("Parallel coordinates plot for lung cancer risk factors. Each line represents the data of 1 patient. For more information on the axis labels, go back to page 2.")
         .style("font-size", "20px")
         .attr("alignment-baseline","middle")
         .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
+        .style("fill", "#fff")
         .style("opacity", 0);
 
     page6.append("text")
@@ -931,8 +920,8 @@ const page6 = svg0.append("g")
 // Define 2 colors to represent the outputs:
 // red for high risk, blue for low risk
 const riskColor = {
-  1: "#d73027",
-  0: "#4575b4",
+  1: "#f87171",
+  0: "#4ade80",
 };
 
 // Define the axes that will be displayed on the parallel
@@ -1076,11 +1065,11 @@ d3.csv("lung_cancer.csv")
 
       axG
         .append("text")
-        .attr("y", ph + 20)
+        .attr("y", ph + 30)
         .attr("text-anchor", "middle")
         .attr("font-size", "12px")
         .attr("font-weight", "bold")
-        .attr("fill", "#111")
+        .attr("fill", "#fff")
         .text(ax.label);
 
       // Create a brush for this axis
@@ -1126,7 +1115,7 @@ d3.csv("lung_cancer.csv")
 
         // Highlight the line if it falls into the brushed range,
         // otherwise make it almost invisible
-        return py >= y0 && py <= y1 ? 0.85 : 0.04;
+        return py >= y0 && py <= y1 ? 0.85 : 0.01;
       });
     };
 
@@ -1137,7 +1126,8 @@ d3.csv("lung_cancer.csv")
       .attr("text-anchor", "middle")
       .attr("font-size", "18px")
       .attr("font-weight", "bold")
-      .text("Lung Cancer Risk Factors — Parallel Coordinates");
+      .attr("fill", "#fff")
+      .text("Lung Cancer Risk Factors — Parallel Coordinates Plot");
 
     // Brush instructions
     g.append("text")
@@ -1145,6 +1135,7 @@ d3.csv("lung_cancer.csv")
       .attr("y", -25)
       .attr("text-anchor", "middle")
       .attr("font-size", "15px")
+      .attr("fill", "#fff")
       .text(
         "Drag up and down on any axis to brush and filter lines. Click again on the axis to clear."
       );
@@ -1164,6 +1155,7 @@ d3.csv("lung_cancer.csv")
       .attr("y", -5)
       .attr("font-size", "12px")
       .attr("font-weight", "bold")
+      .attr("fill", "#fff")
       .text("Cancer Risk");
 
     legendData.forEach((item, i) => {
@@ -1181,6 +1173,7 @@ d3.csv("lung_cancer.csv")
         .attr("x", 28)
         .attr("y", i * 20 + 14)
         .attr("font-size", "12px")
+        .attr("fill", "#fff")
         .text(item.label);
     });
   })
