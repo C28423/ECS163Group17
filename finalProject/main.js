@@ -1198,16 +1198,170 @@ const page7 = svg0.append("g")
 
     //Page 7 - Parallel Coordinates 2
     //CONTENT FOR PAGE 7 START
-    page7.append("text")
-        .attr("class", "page7")
-        .attr("x", 50)
-        .attr("y", 80)
-        .text("TEXT FOR PAGE 7")
-        .style("font-size", "50px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
+    const page7Plot = page7.append("g")
+        .attr("class", "page7-plot")
+        .attr("transform", "translate(0, 0)")
+        .style("opacity", 0)
+        .style("pointer-events", "none");
+
+    d3.csv("lrModelLungCancer.csv").then(data => {
+    console.log("data loaded", data);
+
+    // finds absolute value of the coefficient 
+    // determines the strength of the predictors
+    data.forEach(d => {
+        d.Coefficient = +d.Coefficient;
+        d["Odds Ratio"] = +d["Odds Ratio"];
+        d.AbsCoefficient = Math.abs(d.Coefficient);
+    });
+
+    const dimensions = [
+        "Coefficient",
+        "Odds Ratio",
+        "AbsCoefficient"
+    ];
+
+    data = data.filter(d =>
+        dimensions.every(dim => !isNaN(d[dim]))
+    );
+
+    const plotWidth = width - 180;
+    const plotHeight = height - 180;
+
+    const margin = {
+        top: 50,
+        right: 90,
+        bottom: -30,
+        left: 60
+    };
+
+    const innerWidth = plotWidth - margin.left - margin.right;
+    const innerHeight = plotHeight - margin.top - margin.bottom;
+
+    const g = page7Plot.append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+    const x = d3.scalePoint()
+        .domain(dimensions)
+        .range([0, innerWidth]);
+
+    const y = {};
+
+    dimensions.forEach(dim => {
+
+        const extent = d3.extent(data, d => d[dim]);
+
+        data.forEach(d => {
+            d[dim + "_norm"] =
+                (d[dim] - extent[0]) /
+                (extent[1] - extent[0]);
+        });
+
+        y[dim] = d3.scaleLinear()
+            .domain(extent)
+            .range([innerHeight, 0]);
+    });
+
+    function path(d) {
+        return d3.line()(
+            dimensions.map(p => [
+                x(p),
+                innerHeight - d[p + "_norm"] * innerHeight
+            ])
+        );
+    }
+
+    g.selectAll("path")
+        .data(data)
+        .enter()
+        .append("path")
+        .attr("d", path)
+        .attr("fill", "none")
+        .attr("stroke",
+            d => d.Coefficient >= 0
+                ? "#71d4f8"
+                : "#f87171"
+        )
+        .attr("stroke-width", 1.5)
+        .attr("opacity", 0.4);
+
+    dimensions.forEach(dim => {
+
+        g.append("g")
+            .attr("transform",
+                `translate(${x(dim)},0)`)
+            .call(d3.axisLeft(y[dim]))
+            .style("color", "#f1e3dd")
+            .style("stroke", "#f1e3dd");
+
+        g.append("text")
+            .attr("x", x(dim))
+            .attr("y", -10)
+            .attr("text-anchor", "middle")
+            .style("font-size", "12px")
+            .text(dim)
+            .style("fill", "#f1e3dd");
+    });
+
+    page7Plot.append("text")
+        .attr("x", margin.left + innerWidth / 2)
+        .attr("y", 18)
+        .attr("text-anchor", "middle")
+        .style("font-size", "18px")
+        .style("font-weight", "bold")
+        .text("Lung Cancer Predictor Importance")
+        .style("fill", "#f1e3dd");
+
+    // legend
+    const legend = page7Plot.append("g")
+        .attr("transform", `translate(${plotWidth - 70}, 70)`);
+
+    legend.append("rect")
+        .attr("width", 12)
+        .attr("height", 12)
+        .attr("fill", "#71d4f8");
+
+    legend.append("text")
+        .attr("x", 18)
+        .attr("y", 10)
+        .style("font-size", "11px")
+        .text("Positive Effect")
+        .style("fill", "#f1e3dd");
+
+    legend.append("rect")
+        .attr("y", 20)
+        .attr("width", 12)
+        .attr("height", 12)
+        .attr("fill", "#f87171");
+
+    legend.append("text")
+        .attr("x", 18)
+        .attr("y", 30)
+        .style("font-size", "11px")
+        .text("Negative Effect")
+        .style("fill", "#f1e3dd");
+
+    // hover highlight feature 
+    g.selectAll("path")
+        .on("mouseover", function() {
+
+            d3.selectAll("path")
+                .attr("opacity", 0.08);
+
+            d3.select(this)
+                .attr("opacity", 1)
+                .attr("stroke-width", 3);
+        })
+        .on("mouseout", function() {
+
+            d3.selectAll("path")
+                .attr("opacity", 0.4)
+                .attr("stroke-width", 1.5);
+        });
+
+}).catch(error => {
+    console.error("Error loading data:", error);
+});
     
     page7.append("text")
         .attr("class", "page7")
@@ -1232,6 +1386,9 @@ const page7 = svg0.append("g")
         .style("opacity", 0);
 
     //CONTENT FOR PAGE 7 END
+
+    d3.selectAll(".page7").style("opacity", 0)
+      .style("pointer-events", "none");
 
     //Buttons
     const backButton = svg0.append("rect")
@@ -1300,6 +1457,13 @@ const page7 = svg0.append("g")
                 .duration(2000)
                 .style("opacity", 100)
                 .style("pointer-events", "auto");
+
+            d3.selectAll(".page7-plot")
+                .transition()
+                .duration(2000)
+                .style("opacity", targetPage === 7 ? 1 : 0)
+                .style("pointer-events", targetPage === 7 ? "auto" : "none");
+
                         if (targetPage === 5) {
             if (scG) {
                     if (scMode === "brush") {
