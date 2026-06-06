@@ -667,7 +667,7 @@ const page5 = svg0.append("g")
         scG.select(".sc-ylabel").text(FIELD_LABELS[scYField] || scYField);
     }
  
-    // ── Dots ──
+    //Dots
     function scUpdateDots() {
         const vis = scVisibleData();
         const dots = scG.select(".sc-dots").selectAll("circle")
@@ -809,7 +809,10 @@ const page5 = svg0.append("g")
                 }
             });
  
-        scG.append("g").attr("class", "sc-brush").call(brush);
+        scG.append("g").attr("class", "sc-brush").call(brush)
+            .call(brush)
+            .style("pointer-events", "none")
+            .style("display", "none");
  
         // Zoom
         scZoomBehaviour = d3.zoom()
@@ -1264,6 +1267,27 @@ const page7 = svg0.append("g")
                 .duration(2000)
                 .style("opacity", 100)
                 .style("pointer-events", "auto");
+                        if (targetPage === 5) {
+            if (scG) {
+                    if (scMode === "brush") {
+                        scG.select(".sc-brush")
+                            .style("pointer-events", "all")
+                            .style("display", null);
+                    } else if (scMode === "zoom") {
+                        scG.select(".sc-zoom-rect")
+                            .style("display", null);
+                    }
+                }
+            } 
+            else {
+                if (scG) {
+                    scG.select(".sc-brush")
+                        .style("pointer-events", "none")
+                        .style("display", "none");
+                    scG.select(".sc-zoom-rect")
+                        .style("display", "none");
+                }
+            }
 
             // Hides the back button if the target page is 1, otherwise shows it.
             d3.selectAll(".backButton").transition()
