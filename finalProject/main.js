@@ -1105,7 +1105,7 @@ d3.csv("lung_cancer.csv")
 
         // Highlight the line if it falls into the brushed range,
         // otherwise make it almost invisible
-        return py >= y0 && py <= y1 ? 0.85 : 0.04;
+        return py >= y0 && py <= y1 ? 0.85 : 0.01;
       });
     };
 
