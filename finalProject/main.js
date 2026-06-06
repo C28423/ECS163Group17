@@ -1055,11 +1055,11 @@ d3.csv("lung_cancer.csv")
 
       axG
         .append("text")
-        .attr("y", ph + 20)
+        .attr("y", ph + 30)
         .attr("text-anchor", "middle")
         .attr("font-size", "12px")
         .attr("font-weight", "bold")
-        .attr("fill", "#111")
+        .attr("fill", "#fff")
         .text(ax.label);
 
       // Create a brush for this axis
@@ -1116,6 +1116,7 @@ d3.csv("lung_cancer.csv")
       .attr("text-anchor", "middle")
       .attr("font-size", "18px")
       .attr("font-weight", "bold")
+      .attr("fill", "#fff")
       .text("Lung Cancer Risk Factors — Parallel Coordinates");
 
     // Brush instructions
@@ -1124,6 +1125,7 @@ d3.csv("lung_cancer.csv")
       .attr("y", -25)
       .attr("text-anchor", "middle")
       .attr("font-size", "15px")
+      .attr("fill", "#fff")
       .text(
         "Drag up and down on any axis to brush and filter lines. Click again on the axis to clear."
       );
@@ -1143,6 +1145,7 @@ d3.csv("lung_cancer.csv")
       .attr("y", -5)
       .attr("font-size", "12px")
       .attr("font-weight", "bold")
+      .attr("fill", "#fff")
       .text("Cancer Risk");
 
     legendData.forEach((item, i) => {
@@ -1160,6 +1163,7 @@ d3.csv("lung_cancer.csv")
         .attr("x", 28)
         .attr("y", i * 20 + 14)
         .attr("font-size", "12px")
+        .attr("fill", "#fff")
         .text(item.label);
     });
   })
