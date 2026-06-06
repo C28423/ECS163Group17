@@ -894,7 +894,7 @@ const page6 = svg0.append("g")
     .attr("transform", `translate(100, 0)`);
 
     //Page 6 - Parallel Coordinates 1
-    //CONTENT FOR PAGE 6 START
+    //CONTENT FOR PAGE 6 START    
     page6.append("text")
         .attr("class", "page6")
         .attr("x", 50)
@@ -906,6 +906,16 @@ const page6 = svg0.append("g")
         .style("fill", "#fff")
         .style("opacity", 0);
 
+    page6.append("text")
+        .attr("class", "page6")
+        .attr("x", 50)
+        .attr("y", height - 80)
+        .text("Each line represents an individual patient profile across nine quantitative variables, color-coded by the categorical outcome of Cancer Risk (red for High Risk, blue for Low Risk).")
+        .style("font-size", "20px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
 
 // Define 2 colors to represent the outputs:
 // red for high risk, blue for low risk
@@ -1191,6 +1201,28 @@ const page7 = svg0.append("g")
         .attr("y", 80)
         .text("TEXT FOR PAGE 7")
         .style("font-size", "50px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+    
+    page7.append("text")
+        .attr("class", "page7")
+        .attr("x", 50)
+        .attr("y", height - 110)
+        .text("Parallel Coordinates 2:")
+        .style("font-size", "20px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+
+    page7.append("text")
+        .attr("class", "page7")
+        .attr("x", 50)
+        .attr("y", height - 80)
+        .text("CAPTION")
+        .style("font-size", "20px")
         .attr("alignment-baseline","middle")
         .style("pointer-events", "none")
         .style("fill", "#f1e3dd")
