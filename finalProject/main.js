@@ -899,11 +899,11 @@ const page6 = svg0.append("g")
         .attr("class", "page6")
         .attr("x", 50)
         .attr("y", height - 60)
-        .text("CAPTION FOR PAGE 6")
+        .text("Parallel coordinates plot for lung cancer risk factors. Each line represents the data of 1 patient. For more information on the axis labels, go back to page 2.")
         .style("font-size", "20px")
         .attr("alignment-baseline","middle")
         .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
+        .style("fill", "#fff")
         .style("opacity", 0);
 
 
@@ -1117,7 +1117,7 @@ d3.csv("lung_cancer.csv")
       .attr("font-size", "18px")
       .attr("font-weight", "bold")
       .attr("fill", "#fff")
-      .text("Lung Cancer Risk Factors — Parallel Coordinates");
+      .text("Lung Cancer Risk Factors — Parallel Coordinates Plot");
 
     // Brush instructions
     g.append("text")
