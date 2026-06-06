@@ -1,5 +1,5 @@
 d3.csv("../lrModelLungCancer.csv").then(data => {
-
+document.body.style.background = "#2F353B";
     console.log("data loaded", data);
 
     // finds absolute value of the coefficient 
@@ -80,8 +80,8 @@ d3.csv("../lrModelLungCancer.csv").then(data => {
         .attr("fill", "none")
         .attr("stroke",
             d => d.Coefficient >= 0
-                ? "steelblue"
-                : "tomato"
+                ? "#71d4f8"
+                : "#f87171"
         )
         .attr("stroke-width", 1.5)
         .attr("opacity", 0.4);
@@ -91,14 +91,17 @@ d3.csv("../lrModelLungCancer.csv").then(data => {
         g.append("g")
             .attr("transform",
                 `translate(${x(dim)},0)`)
-            .call(d3.axisLeft(y[dim]));
+            .call(d3.axisLeft(y[dim]))
+            .style("color", "#f1e3dd")
+            .style("stroke", "#f1e3dd");
 
         g.append("text")
             .attr("x", x(dim))
             .attr("y", -10)
             .attr("text-anchor", "middle")
             .style("font-size", "12px")
-            .text(dim);
+            .text(dim)
+            .style("fill", "#f1e3dd");
     });
 
     svg.append("text")
@@ -107,7 +110,8 @@ d3.csv("../lrModelLungCancer.csv").then(data => {
         .attr("text-anchor", "middle")
         .style("font-size", "20px")
         .style("font-weight", "bold")
-        .text("Lung Cancer Predictor Importance");
+        .text("Lung Cancer Predictor Importance")
+        .style("fill", "#f1e3dd");
 
     // legend
     const legend = svg.append("g")
@@ -116,25 +120,27 @@ d3.csv("../lrModelLungCancer.csv").then(data => {
     legend.append("rect")
         .attr("width", 12)
         .attr("height", 12)
-        .attr("fill", "steelblue");
+        .attr("fill", "#71d4f8");
 
     legend.append("text")
         .attr("x", 18)
         .attr("y", 10)
         .style("font-size", "11px")
-        .text("Positive Effect");
+        .text("Positive Effect")
+        .style("fill", "#f1e3dd");
 
     legend.append("rect")
         .attr("y", 20)
         .attr("width", 12)
         .attr("height", 12)
-        .attr("fill", "tomato");
+        .attr("fill", "#f87171");
 
     legend.append("text")
         .attr("x", 18)
         .attr("y", 30)
         .style("font-size", "11px")
-        .text("Negative Effect");
+        .text("Negative Effect")
+        .style("fill", "#f1e3dd");
 
     // hover highlight feature 
     g.selectAll("path")
