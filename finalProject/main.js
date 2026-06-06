@@ -4,13 +4,13 @@ const height = window.innerHeight;
 console.log(height);
 
 //Background color
-document.body.style.background = "#667292";
+document.body.style.background = "#2F353B";
 
 //COLOR PALETTE HEX CODES
-//Color 0: #667292 (Background)
+//Color 0: #2F353B (Background)
 //Color 1: #bccad6 (not used)
-//Color 2: #8d9db6 (Buttons)
-//Color 3: #a5b6d2 (Buttons, highlighted)
+//Color 2: #b5c1d5 (Buttons)
+//Color 3: #ccd6e7 (Buttons, highlighted)
 //Color 3: #f1e3dd (Page text)
 
 //The variable that lets the program keep track of what 'slide' the user is on.
@@ -391,7 +391,7 @@ const page5 = svg0.append("g")
     //Page 5 - Scatterplot
     //CONTENT FOR PAGE 5 START
 
-    const RISK_COLORS = { 0: "#4ade80", 1: "#f87171" };
+    const RISK_COLORS = { 0: "#71d4f8", 1: "#f87171" };
     const RISK_LABELS  = { 0: "Not Elevated Lung Cancer Risk", 1: "Elevated Lung Cancer Risk" };
  
     const NUMERIC_FIELDS = [
@@ -528,7 +528,7 @@ const page5 = svg0.append("g")
  
     // Divider
     controlsDiv.append("xhtml:span")
-        .style("border-left", "1px solid #475569")
+        .style("border-left", "1px solid #f1e3dd")
         .style("height", "28px")
         .style("margin", "0 4px");
  
@@ -635,8 +635,8 @@ const page5 = svg0.append("g")
         scYS = scYSBase.copy();
  
         function scStyleAxis(g) {
-            g.selectAll("text").attr("fill", "#000000").attr("font-size", "11px");
-            g.selectAll("line, path").attr("stroke", "#000000");
+            g.selectAll("text").attr("fill", "#f1e3dd").attr("font-size", "11px");
+            g.selectAll("line, path").attr("stroke", "#f1e3dd");
         }
  
         if (scG.select(".sc-x-axis").empty()) {
@@ -647,7 +647,7 @@ const page5 = svg0.append("g")
             scG.append("text").attr("class", "sc-xlabel")
                 .attr("x", scW / 2).attr("y", scH + 52)
                 .attr("text-anchor", "middle")
-                .attr("fill", "#000000").attr("font-size", "13px");
+                .attr("fill", "#f1e3dd").attr("font-size", "20px");
  
             scG.append("g").attr("class", "sc-y-axis")
                 .call(d3.axisLeft(scYS).ticks(6)).call(scStyleAxis);
@@ -656,7 +656,7 @@ const page5 = svg0.append("g")
                 .attr("transform", "rotate(-90)")
                 .attr("x", -scH / 2).attr("y", -58)
                 .attr("text-anchor", "middle")
-                .attr("fill", "#000000").attr("font-size", "13px");
+                .attr("fill", "#f1e3dd").attr("font-size", "20px");
         } else {
             scG.select(".sc-x-axis").transition().duration(400)
                 .call(d3.axisBottom(scXS).ticks(6)).call(scStyleAxis);
@@ -897,7 +897,7 @@ const page6 = svg0.append("g")
     .attr("transform", `translate(100, 0)`);
 
     //Page 6 - Parallel Coordinates 1
-    //CONTENT FOR PAGE 6 START
+    //CONTENT FOR PAGE 6 START    
     page6.append("text")
         .attr("class", "page6")
         .attr("x", 50)
@@ -909,12 +909,22 @@ const page6 = svg0.append("g")
         .style("fill", "#fff")
         .style("opacity", 0);
 
+    page6.append("text")
+        .attr("class", "page6")
+        .attr("x", 50)
+        .attr("y", height - 80)
+        .text("Each line represents an individual patient profile across nine quantitative variables, color-coded by the categorical outcome of Cancer Risk (red for High Risk, blue for Low Risk).")
+        .style("font-size", "20px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
 
 // Define 2 colors to represent the outputs:
 // red for high risk, blue for low risk
 const riskColor = {
   1: "#f87171",
-  0: "#4ade80",
+  0: "#71d4f8",
 };
 
 // Define the axes that will be displayed on the parallel
@@ -939,7 +949,7 @@ const axesDefs = [
 let activeBrushExtent = null;
 
 const margin = { top: 80, right: 80, bottom: 60, left: 80 };
-const pw = width - margin.left - margin.right - 120;
+const pw = width - margin.left - margin.right - 180;
 const ph = height - margin.top - margin.bottom - 120;
 
 const pc1 = page6.append("g");
@@ -1028,7 +1038,7 @@ d3.csv("lung_cancer.csv")
         .append("line")
         .attr("y1", 0)
         .attr("y2", ph)
-        .attr("stroke", "#111")
+        .attr("stroke", "#f1e3dd")
         .attr("stroke-width", 2.5);
 
       // The lung cancer risk axis should only get 2 ticks (high and low).
@@ -1050,10 +1060,11 @@ d3.csv("lung_cancer.csv")
         .selectAll(".tick text")
         .attr("font-size", "11px")
         .attr("font-weight", "bold")
+        .attr("fill", "#f1e3dd");
 
       axG
         .selectAll(".domain, .tick line")
-        .attr("stroke", "#111")
+        .attr("stroke", "#f1e3dd")
         .attr("stroke-width", 1.5);
 
       axG
@@ -1062,7 +1073,7 @@ d3.csv("lung_cancer.csv")
         .attr("text-anchor", "middle")
         .attr("font-size", "12px")
         .attr("font-weight", "bold")
-        .attr("fill", "#fff")
+        .attr("fill", "#f1e3dd")
         .text(ax.label);
 
       // Create a brush for this axis
@@ -1119,7 +1130,7 @@ d3.csv("lung_cancer.csv")
       .attr("text-anchor", "middle")
       .attr("font-size", "18px")
       .attr("font-weight", "bold")
-      .attr("fill", "#fff")
+      .attr("fill", "#f1e3dd")
       .text("Lung Cancer Risk Factors — Parallel Coordinates Plot");
 
     // Brush instructions
@@ -1128,7 +1139,7 @@ d3.csv("lung_cancer.csv")
       .attr("y", -25)
       .attr("text-anchor", "middle")
       .attr("font-size", "15px")
-      .attr("fill", "#fff")
+      .attr("fill", "#f1e3dd")
       .text(
         "Drag up and down on any axis to brush and filter lines. Click again on the axis to clear."
       );
@@ -1148,7 +1159,7 @@ d3.csv("lung_cancer.csv")
       .attr("y", -5)
       .attr("font-size", "12px")
       .attr("font-weight", "bold")
-      .attr("fill", "#fff")
+      .attr("fill", "#f1e3dd")
       .text("Cancer Risk");
 
     legendData.forEach((item, i) => {
@@ -1166,7 +1177,7 @@ d3.csv("lung_cancer.csv")
         .attr("x", 28)
         .attr("y", i * 20 + 14)
         .attr("font-size", "12px")
-        .attr("fill", "#fff")
+        .attr("fill", "#f1e3dd")
         .text(item.label);
     });
   })
@@ -1193,6 +1204,28 @@ const page7 = svg0.append("g")
         .attr("y", 80)
         .text("TEXT FOR PAGE 7")
         .style("font-size", "50px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+    
+    page7.append("text")
+        .attr("class", "page7")
+        .attr("x", 50)
+        .attr("y", height - 110)
+        .text("Parallel Coordinates 2:")
+        .style("font-size", "20px")
+        .attr("alignment-baseline","middle")
+        .style("pointer-events", "none")
+        .style("fill", "#f1e3dd")
+        .style("opacity", 0);
+
+    page7.append("text")
+        .attr("class", "page7")
+        .attr("x", 50)
+        .attr("y", height - 80)
+        .text("CAPTION")
+        .style("font-size", "20px")
         .attr("alignment-baseline","middle")
         .style("pointer-events", "none")
         .style("fill", "#f1e3dd")
@@ -1323,9 +1356,9 @@ const page7 = svg0.append("g")
 
     d3.selectAll(".forwardButton, .backButton").on("mouseover", function() {
         d3.select(this)
-        .attr("fill", "#a5b6d2");
+        .attr("fill", "#ccd6e7");
     })
     .on("mouseout", function() {
         d3.select(this)
-            .attr("fill", "#8d9db6");
+            .attr("fill", "#b5c1d5");
     })
