@@ -99,12 +99,6 @@ const page2 = svg0.append("g")
     
     // Placeholder for static scatterplot, image url pulled from random site as example, will replace with our own
     // scatterplot image once we have it ready. (can convert to url from local image file if needed)
-    page2.append("image")
-        .attr("x", 0)
-        .attr("y", 100)
-        .attr("width", width - 200)
-        .attr("height", height - 200)
-        .attr("href", "https://iq.opengenus.org/content/images/2023/07/scatter-plots.png");
     
     page2.append("foreignObject")
         .attr("class", "page2")
@@ -164,13 +158,6 @@ const page3 = svg0.append("g")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
-    
-    page3.append("image")
-        .attr("x", 0)
-        .attr("y", 100)
-        .attr("width", width - 200)
-        .attr("height", height - 200)
-        .attr("href", "https://iq.opengenus.org/content/images/2023/07/scatter-plots.png");
     
     page3.append("foreignObject")
         .attr("class", "page3")
@@ -251,36 +238,19 @@ const page4 = svg0.append("g")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
 
-    page4.append("image")
-        .attr("x", 0)
-        .attr("y", 100)
-        .attr("width", width - 200)
-        .attr("height", height - 200)
-        .attr("href", "https://iq.opengenus.org/content/images/2023/07/scatter-plots.png");
-    
     page4.append("foreignObject")
         .attr("class", "page4")
         .attr("x", 0)
-<<<<<<< HEAD
-        .attr("y", height - 200)
-        .attr("width", width-200)
-        .attr("height", height - 200)
-=======
         .attr("y", 100)
         .attr("width", width-250)
         .attr("height",  height - 200)
->>>>>>> 53d6e8abc7476742780ac30a104f9a418af54a0b
         .append("xhtml:div")
         .style("font-size", "20px")
         .attr("alignment-baseline","middle")
         .style("color", "#f1e3dd")
         .html(`
-<<<<<<< HEAD
-            <p>Placeholder text for Page 4</p>
-=======
             <p>Our dataset has a number of features. Some of the labels aren't self explanatory; we include the full labels as listed on Kaggle here for clarity.</p>
             <p>We use a select number of these features for our scatterplot and parallel coordinate graph 1, and they are all present in parallel coordinate graph 2 to display the signficance of each feature for determining the target variable.</p>
->>>>>>> 53d6e8abc7476742780ac30a104f9a418af54a0b
         `);
 
     page4.append("foreignObject")
