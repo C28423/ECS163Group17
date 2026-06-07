@@ -31,14 +31,9 @@ d3.csv("lrModelLungCancer.csv").then(data2 =>{
     console.log(error);
 });
 
-const refWidth = 1920;
-const refHeight = 1080;
-
 const svg0 = d3.select("body").append("svg")
-    .style("width", "100vw")
-    .style("height", "100vh")
-    .attr("viewBox", `0 0 ${refWidth} ${refHeight}`)
-    .attr("preserveAspectRatio", "xMidYMid meet");
+    .attr("width", width)
+    .attr("height", height); 
 
 const page1 = svg0.append("g")
     .attr("class", "page1")
@@ -47,6 +42,7 @@ const page1 = svg0.append("g")
     .attr("transform", `translate(100, 0)`)
     .style("pointer-events", "none")
     .style("opacity", 1);
+
 
     //PAGE 1 - Intro & Background Information. Text about logistic regression and a graphic about it if we have time.
     //CONTENT FOR PAGE 1 START
@@ -63,8 +59,8 @@ const page1 = svg0.append("g")
         .attr("class", "page1")
         .attr("x", 0)
         .attr("y", 150)
-        .attr("width", refWidth-200)
-        .attr("height", refHeight - 200)
+        .attr("width", width-200)
+        .attr("height", height - 200)
         .append("xhtml:div")
         .style("font-size", "25px")
         .attr("alignment-baseline","middle")
@@ -105,8 +101,8 @@ const page2 = svg0.append("g")
         .attr("class", "page2")
         .attr("x", 0)
         .attr("y", 150)
-        .attr("width", refWidth-200)
-        .attr("height", refHeight - 200)
+        .attr("width", width-200)
+        .attr("height",  height - 200)
         .append("xhtml:div")
         .style("font-size", "25px")
         .attr("alignment-baseline","middle")
@@ -116,7 +112,7 @@ const page2 = svg0.append("g")
             
             <p>Age: Older individuals tend to be higher risk, likely due to cumulative exposure to risk factors and age-related decline in lung function.</p>
             <p>Smoking Years: The number of years a patient has smoked.</p>
-            <p>Ciggarettes Per Day: The average number of cigarettes a patient smokes per day.</p>
+            <p>Cigarettes Per Day: The average number of cigarettes a patient smokes per day.</p>
             <p>Pack Years: A cumulative measurement which estimates a person's total lifetime exposure to cigarette smoking</p>
             <p>Air Pollution Index: The level of air pollution in a patient's environment.</p>
             <p>BMI: Body Mass Index, a measure of body fat based on height and weight.</p>
@@ -184,7 +180,7 @@ const page5 = svg0.append("g")
         .attr("class", "page5")
         .attr("x", 50)
         .attr("y", height - 110)
-        .text("Interactive Scatterplot, Green dots represent patients not at elevated risk, red dots represent patients at elevated risk.")
+        .text("Interactive Scatterplot, Blue dots represent patients not at elevated risk, red dots represent patients at elevated risk.")
         .style("font-size", "20px")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
@@ -1184,8 +1180,8 @@ const page7 = svg0.append("g")
     //Buttons
     const backButton = svg0.append("rect")
         .attr("class", "backButton")
-        .attr("x", -70)
-        .attr("y", refHeight/2 - 50)
+        .attr("x", 20)
+        .attr("y", height/2 - 50)
         .attr("height", 100)
         .attr("width", 70)
         .attr("fill", "#8d9db6")
@@ -1197,8 +1193,8 @@ const page7 = svg0.append("g")
 
     svg0.append("text")
         .attr("class", "backButtonText")
-        .attr("x", -50)
-        .attr("y", refHeight/2 + 5)
+        .attr("x", 40)
+        .attr("y", height/2 + 5)
         .text("<")
         .style("font-size", "50px")
         .style("font-weight", "bold")
@@ -1208,8 +1204,8 @@ const page7 = svg0.append("g")
 
     const forwardButton = svg0.append("rect")
         .attr("class", "forwardButton")
-        .attr("x", refWidth)
-        .attr("y", refHeight/2 - 50)
+        .attr("x", width - 90)
+        .attr("y", height/2 - 50)
         .attr("height", 100)
         .attr("width", 70)
         .attr("fill", "#8d9db6")
@@ -1221,8 +1217,8 @@ const page7 = svg0.append("g")
 
     svg0.append("text")
         .attr("class", "forwardButtonText")
-        .attr("x", refWidth + 20)
-        .attr("y", refHeight/2 + 5)
+        .attr("x", width - 70)
+        .attr("y", height/2 + 5)
         .text(">")
         .style("font-size", "50px")
         .style("font-weight", "bold")
