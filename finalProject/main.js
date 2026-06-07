@@ -114,6 +114,7 @@ const page2 = svg0.append("g")
         `);
 
     page2.append("image")
+            .attr("class", "page2")
             .attr("href", "Images/scatterPlotInsight.png")
             .attr("x", 0)
             .attr("y", height/2)
@@ -136,10 +137,54 @@ const page3 = svg0.append("g")
         .attr("class", "page3")
         .attr("x", 50)
         .attr("y", 80)
-        .text("TEXT FOR PAGE 3")
+        .text("Parallel Coordinate Insights")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
+
+    page3.append("foreignObject")
+        .attr("class", "page3")
+        .attr("x", 0)
+        .attr("y", 150)
+        .attr("width", width/2 - 100)
+        .attr("height", height - 200)
+        .append("xhtml:div")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("color", "#f1e3dd")
+        .html(` 
+        <p>Parallel Coordinate Plot 1: Narrowing our view to just patients at low risk, we can observe the importance of FEV1 and Oxygen Saturation in decreased likelihood of increased risk. All low risk patients have higher values of these.</p>
+        `);
+
+    page3.append("image")
+            .attr("class", "page3")
+            .attr("href", "Images/parallelcoord1Insight.png")
+            .attr("x", 0)
+            .attr("y", height/2)
+            .attr("width", width/2 - 50)
+            .attr("height", height/2);
+
+    page3.append("foreignObject")
+        .attr("class", "page3")
+        .attr("x", width/2)
+        .attr("y", 150)
+        .attr("width", width/2 - 100)
+        .attr("height", height - 200)
+        .append("xhtml:div")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("color", "#f1e3dd")
+        .html(` 
+        <p>Parallel Coordinate Plot 2: Focusing on Absolute Coefficients, we can see that features in this dataset can be roughly divided into features with a < 0.25 absolute coefficient which do not provide significant insight into lung cancer risk, and those with > 0.25 which are useful for assessing risk. In the interactive portion, feel free to view individual features.</p>
+        `);
+
+    page3.append("image")
+            .attr("class", "page3")
+            .attr("href", "Images/parallelcoord2Insight.png")
+            .attr("x", width/2 - 50)
+            .attr("y", height/2)
+            .attr("width", width/2)
+            .attr("height", height/2);
 
     //CONTENT FOR PAGE 3 END
 
