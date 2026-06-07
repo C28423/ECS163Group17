@@ -96,6 +96,29 @@ const page2 = svg0.append("g")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
+    
+    // Placeholder for static scatterplot, image url pulled from random site as example, will replace with our own
+    // scatterplot image once we have it ready. (can convert to url from local image file if needed)
+    page2.append("image")
+        .attr("x", 0)
+        .attr("y", 100)
+        .attr("width", width - 200)
+        .attr("height", height - 200)
+        .attr("href", "https://iq.opengenus.org/content/images/2023/07/scatter-plots.png");
+    
+    page2.append("foreignObject")
+        .attr("class", "page2")
+        .attr("x", 0)
+        .attr("y", height - 200)
+        .attr("width", width-200)
+        .attr("height", height - 200)
+        .append("xhtml:div")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("color", "#f1e3dd")
+        .html(`
+            <p>Placeholder text for Page 2</p>
+        `);
 
     //CONTENT FOR PAGE 2 END
 
@@ -117,6 +140,27 @@ const page3 = svg0.append("g")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
+    
+    page3.append("image")
+        .attr("x", 0)
+        .attr("y", 100)
+        .attr("width", width - 200)
+        .attr("height", height - 200)
+        .attr("href", "https://iq.opengenus.org/content/images/2023/07/scatter-plots.png");
+    
+    page3.append("foreignObject")
+        .attr("class", "page3")
+        .attr("x", 0)
+        .attr("y", height - 200)
+        .attr("width", width-200)
+        .attr("height", height - 200)
+        .append("xhtml:div")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("color", "#f1e3dd")
+        .html(`
+            <p>Placeholder text for Page 3</p>
+        `);
 
     //CONTENT FOR PAGE 3 END
 
@@ -139,31 +183,25 @@ const page4 = svg0.append("g")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
 
+    page4.append("image")
+        .attr("x", 0)
+        .attr("y", 100)
+        .attr("width", width - 200)
+        .attr("height", height - 200)
+        .attr("href", "https://iq.opengenus.org/content/images/2023/07/scatter-plots.png");
+    
     page4.append("foreignObject")
         .attr("class", "page4")
         .attr("x", 0)
-        .attr("y", 150)
+        .attr("y", height - 200)
         .attr("width", width-200)
-        .attr("height",  height - 200)
+        .attr("height", height - 200)
         .append("xhtml:div")
         .style("font-size", "25px")
         .attr("alignment-baseline","middle")
         .style("color", "#f1e3dd")
         .html(`
-            <p>From our data, we've determined that the following factors contribute most to a risk of lung cancer:</p>
-            
-            <p>Age: Older individuals tend to be higher risk, likely due to cumulative exposure to risk factors and age-related decline in lung function.</p>
-            <p>Smoking Years: The number of years a patient has smoked.</p>
-            <p>Cigarettes Per Day: The average number of cigarettes a patient smokes per day.</p>
-            <p>Pack Years: A cumulative measurement which estimates a person's total lifetime exposure to cigarette smoking</p>
-            <p>Air Pollution Index: The level of air pollution in a patient's environment.</p>
-            <p>BMI: Body Mass Index, a measure of body fat based on height and weight.</p>
-            <p>O2 Saturation: The percentage of oxygen in a patient's blood.</p>
-            <p>FEV1: Forced Expiratory Volume in 1 second, a measure of lung capacity and function.</p>
-            <p>CRP Level: C-reactive protein level, higher levels suggest increased inflammatory activity or risk of certain diseases.</p>
-            <p>Exercise Hours Per Week: The average number of hours a patient exercises per week.</p>
-            <p>Alcohol Units Per Week: The average amount of alcohol a patient consumes per week.</p>
-            <p>Education Years: The number of years of education a patient has completed.</p>
+            <p>Placeholder text for Page 4</p>
         `);
 
     //CONTENT FOR PAGE 4 END
@@ -198,18 +236,18 @@ const page5 = svg0.append("g")
         "alcohol_units_per_week", "education_years"
     ];
     const FIELD_LABELS = {
-        age: "Age",
-        smoking_years: "Smoking Years",
-        cigarettes_per_day: "Cigarettes/Day",
-        pack_years: "Pack Years",
-        air_pollution_index: "Air Pollution Index",
-        bmi: "BMI",
-        oxygen_saturation: "O₂ Saturation (%)",
-        fev1_x10: "FEV1 ×10",
-        crp_level: "CRP Level",
-        exercise_hours_per_week: "Exercise Hrs/Week",
-        alcohol_units_per_week: "Alcohol Units/Week",
-        education_years: "Education Years",
+        age: "Age - patient age in years",
+        smoking_years: "Smoking Years - years the patient has smoked",
+        cigarettes_per_day: "Cigarettes/Day - average cigarettes smoked per day",
+        pack_years: "Pack Years - cumulative smoking exposure",
+        air_pollution_index: "Air Pollution Index - local air pollution exposure",
+        bmi: "BMI - body mass index",
+        oxygen_saturation: "O₂ Saturation (%) - blood oxygen level",
+        fev1_x10: "FEV1 ×10 - lung function / forced expiratory volume",
+        crp_level: "CRP Level - inflammation marker",
+        exercise_hours_per_week: "Exercise Hrs/Week - weekly exercise hours",
+        alcohol_units_per_week: "Alcohol Units/Week - weekly alcohol units",
+        education_years: "Education Years - years of schooling",
     };
  
     // Scatterplot state
