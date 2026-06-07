@@ -3,6 +3,7 @@ console.log(width);
 const height = window.innerHeight;
 console.log(height);
 
+
 //Background color
 document.body.style.background = "#2F353B";
 
@@ -1183,21 +1184,21 @@ const page7 = svg0.append("g")
     //Buttons
     const backButton = svg0.append("rect")
         .attr("class", "backButton")
-        .attr("x", 20)
-        .attr("y", height/2 - 50)
+        .attr("x", -70)
+        .attr("y", refHeight/2 - 50)
         .attr("height", 100)
         .attr("width", 70)
         .attr("fill", "#8d9db6")
         .style("cursor", "pointer")
         .attr("stroke", "#000000")
-        .attr("stoke-width", "1px")
+        .attr("stroke-width", "1px")
         .style("opacity", 0)
         .style("pointer-events", "none");
 
     svg0.append("text")
         .attr("class", "backButtonText")
-        .attr("x", 40)
-        .attr("y", height/2 + 5)
+        .attr("x", -50)
+        .attr("y", refHeight/2 + 5)
         .text("<")
         .style("font-size", "50px")
         .style("font-weight", "bold")
@@ -1207,21 +1208,21 @@ const page7 = svg0.append("g")
 
     const forwardButton = svg0.append("rect")
         .attr("class", "forwardButton")
-        .attr("x", width - 90)
-        .attr("y", height/2 - 50)
+        .attr("x", refWidth)
+        .attr("y", refHeight/2 - 50)
         .attr("height", 100)
         .attr("width", 70)
         .attr("fill", "#8d9db6")
         .style("cursor", "pointer")
         .attr("stroke", "#000000")
-        .attr("stoke-width", "1px")
+        .attr("stroke-width", "1px")
         .style("opacity", 100)
         .style("pointer-events", "auto");
 
     svg0.append("text")
         .attr("class", "forwardButtonText")
-        .attr("x", width - 70)
-        .attr("y", height/2 + 5)
+        .attr("x", refWidth + 20)
+        .attr("y", refHeight/2 + 5)
         .text(">")
         .style("font-size", "50px")
         .style("font-weight", "bold")
