@@ -96,33 +96,6 @@ const page2 = svg0.append("g")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
-    
-    page2.append("foreignObject")
-        .attr("class", "page2")
-        .attr("x", 0)
-        .attr("y", 150)
-        .attr("width", width-200)
-        .attr("height",  height - 200)
-        .append("xhtml:div")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("color", "#f1e3dd")
-        .html(`
-            <p>From our data, we've determined that the following factors contribute most to a risk of lung cancer:</p>
-            
-            <p>Age: Older individuals tend to be higher risk, likely due to cumulative exposure to risk factors and age-related decline in lung function.</p>
-            <p>Smoking Years: The number of years a patient has smoked.</p>
-            <p>Cigarettes Per Day: The average number of cigarettes a patient smokes per day.</p>
-            <p>Pack Years: A cumulative measurement which estimates a person's total lifetime exposure to cigarette smoking</p>
-            <p>Air Pollution Index: The level of air pollution in a patient's environment.</p>
-            <p>BMI: Body Mass Index, a measure of body fat based on height and weight.</p>
-            <p>O2 Saturation: The percentage of oxygen in a patient's blood.</p>
-            <p>FEV1: Forced Expiratory Volume in 1 second, a measure of lung capacity and function.</p>
-            <p>CRP Level: C-reactive protein level, higher levels suggest increased inflammatory activity or risk of certain diseases.</p>
-            <p>Exercise Hours Per Week: The average number of hours a patient exercises per week.</p>
-            <p>Alcohol Units Per Week: The average amount of alcohol a patient consumes per week.</p>
-            <p>Education Years: The number of years of education a patient has completed.</p>
-        `);
 
     //CONTENT FOR PAGE 2 END
 
@@ -165,6 +138,33 @@ const page4 = svg0.append("g")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
+
+    page4.append("foreignObject")
+        .attr("class", "page4")
+        .attr("x", 0)
+        .attr("y", 150)
+        .attr("width", width-200)
+        .attr("height",  height - 200)
+        .append("xhtml:div")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("color", "#f1e3dd")
+        .html(`
+            <p>From our data, we've determined that the following factors contribute most to a risk of lung cancer:</p>
+            
+            <p>Age: Older individuals tend to be higher risk, likely due to cumulative exposure to risk factors and age-related decline in lung function.</p>
+            <p>Smoking Years: The number of years a patient has smoked.</p>
+            <p>Cigarettes Per Day: The average number of cigarettes a patient smokes per day.</p>
+            <p>Pack Years: A cumulative measurement which estimates a person's total lifetime exposure to cigarette smoking</p>
+            <p>Air Pollution Index: The level of air pollution in a patient's environment.</p>
+            <p>BMI: Body Mass Index, a measure of body fat based on height and weight.</p>
+            <p>O2 Saturation: The percentage of oxygen in a patient's blood.</p>
+            <p>FEV1: Forced Expiratory Volume in 1 second, a measure of lung capacity and function.</p>
+            <p>CRP Level: C-reactive protein level, higher levels suggest increased inflammatory activity or risk of certain diseases.</p>
+            <p>Exercise Hours Per Week: The average number of hours a patient exercises per week.</p>
+            <p>Alcohol Units Per Week: The average amount of alcohol a patient consumes per week.</p>
+            <p>Education Years: The number of years of education a patient has completed.</p>
+        `);
 
     //CONTENT FOR PAGE 4 END
 
