@@ -30,15 +30,22 @@ d3.csv("lrModelLungCancer.csv").then(data2 =>{
     console.log(error);
 });
 
+const refWidth = 1920;
+const refHeight = 1080;
+
 const svg0 = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height); 
+    .style("width", "100vw")
+    .style("height", "100vh")
+    .attr("viewBox", `0 0 ${refWidth} ${refHeight}`)
+    .attr("preserveAspectRatio", "xMidYMid meet");
 
 const page1 = svg0.append("g")
     .attr("class", "page1")
     .attr("height", height)
-    .attr("weight", width - 200)
-    .attr("transform", `translate(100, 0)`);
+    .attr("width", width - 200)
+    .attr("transform", `translate(100, 0)`)
+    .style("pointer-events", "none")
+    .style("opacity", 1);
 
     //PAGE 1 - Intro & Background Information. Text about logistic regression and a graphic about it if we have time.
     //CONTENT FOR PAGE 1 START
@@ -49,116 +56,38 @@ const page1 = svg0.append("g")
         .text("Lung Cancer Risk Factors")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 100);
+        .style("fill", "#f1e3dd");
 
-    page1.append("text")
+    page1.append("foreignObject")
         .attr("class", "page1")
-        .attr("x", 50)
+        .attr("x", 0)
         .attr("y", 150)
-        .text("Using a dataset of health metrics, we aim to visualize factors that affect lung cancer risk.")
+        .attr("width", refWidth-200)
+        .attr("height", refHeight - 200)
+        .append("xhtml:div")
         .style("font-size", "25px")
         .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 100);
+        .style("color", "#f1e3dd")
+        .html(`
+            <p>Using a dataset of health metrics, we aim to visualize factors that affect lung cancer risk.</p>
+            
+            <p>We've used the dataset to train a logistic regression machine learning model. This works by feeding the model data from the dataset, and it learns which features can be used to predict lung cancer risk based on the target variable. This is expressed through coefficients, which represent significance in the outcome, and odds ratios, which communicate whether a higher value increases or decreases lung cancer risk based on whether the ratio is above or below 1.</p>
+            
+            <p>Based on the model's coefficients & odds ratios, we've identified top contributing factors.</p>
 
-    page1.append("text")
-        .attr("class", "page1")
-        .attr("x", 50)
-        .attr("y", 200)
-        .text("We've used the dataset to train a logistic regression machine learning model. This works by feeding the model data from the dataset,")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 100);
-
-    page1.append("text")
-        .attr("class", "page1")
-        .attr("x", 50)
-        .attr("y", 230)
-        .text("and it learns which features can be used to predict lung cancer risk based on the target variable. This is expressed through coefficients,")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 100);
-
-    page1.append("text")
-        .attr("class", "page1")
-        .attr("x", 50)
-        .attr("y", 260)
-        .text("which represent significance in the outcome, and odds ratios, which communicate whether a higher value increases or decreases lung cancer")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 100);
-
-    page1.append("text")
-        .attr("class", "page1")
-        .attr("x", 50)
-        .attr("y", 290)
-        .text("risk based on whether the ratio is above or below 1.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 100);
-
-    page1.append("text")
-        .attr("class", "page1")
-        .attr("x", 50)
-        .attr("y", 340)
-        .text("Based on the model's coefficients & odds ratios, we've identified top contributing factors.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 100);
-
-    page1.append("text")
-        .attr("class", "page1")
-        .attr("x", 50)
-        .attr("y", 400)
-        .text("In parallel coordinate plot 1, we visualize some of these top factors and show their connection to lung cancer risk.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 100);
-
-    page1.append("text")
-        .attr("class", "page1")
-        .attr("x", 50)
-        .attr("y", 440)
-        .text("In parallel coordinate plot 2, we visualize coefficients of different factors, to compare them.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 100);
-
-    page1.append("text")
-        .attr("class", "page1")
-        .attr("x", 50)
-        .attr("y", 480)
-        .text("In our scatterplot, we compare different features against each other to get an idea of how they interact.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 100);
-
+            <p>Parallel Coordinate Plot 1: We visualize some of these top factors and show their connection to lung cancer risk.</p>
+            <p>Parallel Coordinate Plot 2: We visualize coefficients of different factors to compare them.</p>
+            <p>Scatterplot: We compare different features against each other to get an idea of how they interact.</p>
+        `);
     //CONTENT FOR PAGE 1 END
 
 const page2 = svg0.append("g")
     .attr("class", "page2")
     .attr("height", height)
-    .attr("weight", width - 200)
-    .attr("transform", `translate(100, 0)`);
+    .attr("width", width - 200)
+    .attr("transform", `translate(100, 0)`)
+    .style("opacity", 0)
+    .style("pointer-events", "none");
 
     //Page 2 - Static Scatterplot and related insight text.
     //CONTENT FOR PAGE 2 START
@@ -169,171 +98,44 @@ const page2 = svg0.append("g")
         .text("Understanding the Data: Key Risk Factors for Lung Cancer")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-
-        page2.append("text")
+        .style("fill", "#f1e3dd");
+    
+    page2.append("foreignObject")
         .attr("class", "page2")
-        .attr("x", 50)
+        .attr("x", 0)
         .attr("y", 150)
-        .text("From our data, we've determined that the following factors contribute most to a risk of lung cancer:")
+        .attr("width", refWidth-200)
+        .attr("height", refHeight - 200)
+        .append("xhtml:div")
         .style("font-size", "25px")
         .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-
-    page2.append("text")
-        .attr("class", "page2")
-        .attr("x", 80)
-        .attr("y", 200)
-        .text("Age: Older individuals tend to be higher risk, likely due to cumulative exposure to risk factors and age-related decline in lung function.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-
-    page2.append("text")
-        .attr("class", "page2")
-        .attr("x", 80)
-        .attr("y", 240)
-        .text("Smoking Years: The number of years a patient has smoked.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-
-    page2.append("text")
-        .attr("class", "page2")
-        .attr("x", 80)
-        .attr("y", 280)
-        .text("Ciggarettes Per Day: The average number of cigarettes a patient smokes per day.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-
-    page2.append("text")
-        .attr("class", "page2")
-        .attr("x", 80)
-        .attr("y", 320)
-        .text("Pack Years: A cumulative measurement which estimates a person's total lifetime exposure to cigarette smoking")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-
-    page2.append("text")
-        .attr("class", "page2")
-        .attr("x", 80)
-        .attr("y", 360)
-        .text("Air Pollution Index: The level of air pollution in a patient's environment.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-
-    page2.append("text")
-        .attr("class", "page2")
-        .attr("x", 80)
-        .attr("y", 400)
-        .text("BMI: Body Mass Index, a measure of body fat based on height and weight.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-
-    page2.append("text")
-        .attr("class", "page2")
-        .attr("x", 80)
-        .attr("y", 440)
-        .text("O2 Saturation: The percentage of oxygen in a patient's blood.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-
-    page2.append("text")
-        .attr("class", "page2")
-        .attr("x", 80)
-        .attr("y", 480)
-        .text("FEV1: Forced Expiratory Volume in 1 second, a measure of lung capacity and function.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-      
-    page2.append("text")
-        .attr("class", "page2")
-        .attr("x", 80)
-        .attr("y", 520)
-        .text("CRP Level: C-reactive protein level, higher levels suggest increased inflammatory activity or risk of certain diseases.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-    
-    page2.append("text")
-        .attr("class", "page2")
-        .attr("x", 80)
-        .attr("y", 560)
-        .text("Exercise Hours Per Week: The average number of hours a patient exercises per week.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-    
-    page2.append("text")
-        .attr("class", "page2")
-        .attr("x", 80)
-        .attr("y", 600)
-        .text("Exercise Hours Per Week: The average number of hours a patient exercises per week.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-
-    page2.append("text")
-        .attr("class", "page2")
-        .attr("x", 80)
-        .attr("y", 640)
-        .text("Alcohol Units Per Week: The average amount of alcohol a patient consumes per week.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
-    
-    page2.append("text")
-        .attr("class", "page2")
-        .attr("x", 80)
-        .attr("y", 680)
-        .text("Education Years: The number of years of education a patient has completed.")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
+        .style("color", "#f1e3dd")
+        .html(`
+            <p>From our data, we've determined that the following factors contribute most to a risk of lung cancer:</p>
+            
+            <p>Age: Older individuals tend to be higher risk, likely due to cumulative exposure to risk factors and age-related decline in lung function.</p>
+            <p>Smoking Years: The number of years a patient has smoked.</p>
+            <p>Ciggarettes Per Day: The average number of cigarettes a patient smokes per day.</p>
+            <p>Pack Years: A cumulative measurement which estimates a person's total lifetime exposure to cigarette smoking</p>
+            <p>Air Pollution Index: The level of air pollution in a patient's environment.</p>
+            <p>BMI: Body Mass Index, a measure of body fat based on height and weight.</p>
+            <p>O2 Saturation: The percentage of oxygen in a patient's blood.</p>
+            <p>FEV1: Forced Expiratory Volume in 1 second, a measure of lung capacity and function.</p>
+            <p>CRP Level: C-reactive protein level, higher levels suggest increased inflammatory activity or risk of certain diseases.</p>
+            <p>Exercise Hours Per Week: The average number of hours a patient exercises per week.</p>
+            <p>Alcohol Units Per Week: The average amount of alcohol a patient consumes per week.</p>
+            <p>Education Years: The number of years of education a patient has completed.</p>
+        `);
 
     //CONTENT FOR PAGE 2 END
 
 const page3 = svg0.append("g")
     .attr("class", "page3")
     .attr("height", height)
-    .attr("weight", width - 200)
-    .attr("transform", `translate(100, 0)`);
+    .attr("width", width - 200)
+    .attr("transform", `translate(100, 0)`)
+    .style("opacity", 0)
+    .style("pointer-events", "none");
 
     //Static Parallel Coordinates and related insight text.
     //CONTENT FOR PAGE 3 START
@@ -344,17 +146,17 @@ const page3 = svg0.append("g")
         .text("TEXT FOR PAGE 3")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
+        .style("fill", "#f1e3dd");
 
     //CONTENT FOR PAGE 3 END
 
 const page4 = svg0.append("g")
     .attr("class", "page4")
     .attr("height", height)
-    .attr("weight", width - 200)
-    .attr("transform", `translate(100, 0)`);
+    .attr("width", width - 200)
+    .attr("transform", `translate(100, 0)`)
+    .style("opacity", 0)
+    .style("pointer-events", "none");
     
     //Page 4 - Summary of insights.
     //CONTENT FOR PAGE 4 START
@@ -365,17 +167,17 @@ const page4 = svg0.append("g")
         .text("TEXT FOR PAGE 4")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
+        .style("fill", "#f1e3dd");
 
     //CONTENT FOR PAGE 4 END
 
 const page5 = svg0.append("g")
     .attr("class", "page5")
     .attr("height", height)
-    .attr("weight", width - 200)
-    .attr("transform", `translate(100, 0)`);
+    .attr("width", width - 200)
+    .attr("transform", `translate(100, 0)`)
+    .style("opacity", 0)
+    .style("pointer-events", "none");
 
     page5.append("text")
         .attr("class", "page5")
@@ -384,9 +186,7 @@ const page5 = svg0.append("g")
         .text("Interactive Scatterplot, Green dots represent patients not at elevated risk, red dots represent patients at elevated risk.")
         .style("font-size", "20px")
         .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
+        .style("fill", "#f1e3dd");
 
     //Page 5 - Scatterplot
     //CONTENT FOR PAGE 5 START
@@ -469,9 +269,7 @@ const page5 = svg0.append("g")
         .text("Interactive Scatterplot: Feature Comparison")
         .style("font-size", "32px")
         .attr("alignment-baseline", "middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
+        .style("fill", "#f1e3dd");
     page5.append("text")
         .attr("class", "page5")
         .attr("x", 50)
@@ -479,9 +277,7 @@ const page5 = svg0.append("g")
         .text("Click and drag to select points. Use the controls to change axes and filter by risk.")
         .style("font-size", "16px")
         .attr("alignment-baseline", "middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3ddde")
-        .style("opacity", 0);
+        .style("fill", "#f1e3ddde");
  
     const controlsHeight = 52;
     const controlsFO = page5.append("foreignObject")
@@ -489,9 +285,7 @@ const page5 = svg0.append("g")
         .attr("x", 50)
         .attr("y", 70)
         .attr("width", width - 220)
-        .attr("height", controlsHeight)
-        .style("opacity", 0)
-        .style("pointer-events", "none");
+        .attr("height", controlsHeight);
  
     const controlsDiv = controlsFO.append("xhtml:div")
         .style("display", "flex")
@@ -596,9 +390,7 @@ const page5 = svg0.append("g")
         .attr("x", 1600)
         .attr("y", 100)
         .attr("width", width - 220)
-        .attr("height", 40)
-        .style("opacity", 0)
-        .style("pointer-events", "none");
+        .attr("height", 40);
  
     const infoDiv = infoFO.append("xhtml:div")
         .attr("id", "sc-info")
@@ -755,8 +547,8 @@ const page5 = svg0.append("g")
         scG.select(".sc-zoom-rect").call(scZoomBehaviour.transform, d3.zoomIdentity);
  
         function scStyleAxis(g) {
-            g.selectAll("text").attr("fill", "#000000").attr("font-size", "11px");
-            g.selectAll("line, path").attr("stroke", "#000000");
+            g.selectAll("text").attr("fill", "#f1e3dd").attr("font-size", "11px");
+            g.selectAll("line, path").attr("stroke", "#f1e3dd");
         }
         scG.select(".sc-x-axis").transition().duration(500)
             .call(d3.axisBottom(scXS).ticks(6)).call(scStyleAxis);
@@ -820,8 +612,8 @@ const page5 = svg0.append("g")
             .translateExtent([[-scW, -scH], [2 * scW, 2 * scH]])
             .on("zoom", function() {
                 function scStyleAxis(g) {
-                    g.selectAll("text").attr("fill", "#000000").attr("font-size", "11px");
-                    g.selectAll("line, path").attr("stroke", "#000000");
+                    g.selectAll("text").attr("fill", "#f1e3dd").attr("font-size", "11px");
+                    g.selectAll("line, path").attr("stroke", "#f1e3dd");
                 }
                 scZoomTransform = d3.event.transform;
                 scXS = scZoomTransform.rescaleX(scXSBase);
@@ -893,8 +685,10 @@ const page5 = svg0.append("g")
 const page6 = svg0.append("g")
     .attr("class", "page6")
     .attr("height", height)
-    .attr("weight", width - 200)
-    .attr("transform", `translate(100, 0)`);
+    .attr("width", width - 200)
+    .attr("transform", `translate(100, 0)`)
+    .style("opacity", 0)
+    .style("pointer-events", "none");
 
     //Page 6 - Parallel Coordinates 1
     //CONTENT FOR PAGE 6 START    
@@ -905,9 +699,7 @@ const page6 = svg0.append("g")
         .text("Parallel coordinates plot for lung cancer risk factors. Each line represents the data of 1 patient. For more information on the axis labels, go back to page 2.")
         .style("font-size", "20px")
         .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#fff")
-        .style("opacity", 0);
+        .style("fill", "#fff");
 
     page6.append("text")
         .attr("class", "page6")
@@ -916,9 +708,7 @@ const page6 = svg0.append("g")
         .text("Each line represents an individual patient profile across nine quantitative variables, color-coded by the categorical outcome of Cancer Risk (red for High Risk, blue for Low Risk).")
         .style("font-size", "20px")
         .attr("alignment-baseline","middle")
-        .style("pointer-events", "none")
-        .style("fill", "#f1e3dd")
-        .style("opacity", 0);
+        .style("fill", "#f1e3dd");
 
 // Define 2 colors to represent the outputs:
 // red for high risk, blue for low risk
@@ -1193,7 +983,7 @@ d3.selectAll(".page6").style("pointer-events", "none");
 const page7 = svg0.append("g")
     .attr("class", "page7")
     .attr("height", height)
-    .attr("weight", width - 200)
+    .attr("width", width - 200)
     .attr("transform", `translate(100, 0)`);
 
     //Page 7 - Parallel Coordinates 2
@@ -1455,7 +1245,7 @@ const page7 = svg0.append("g")
             d3.selectAll(".page" + targetPage).transition()
                 .delay(1000)
                 .duration(2000)
-                .style("opacity", 100)
+                .style("opacity", 1)
                 .style("pointer-events", "auto");
 
             d3.selectAll(".page7-plot")
@@ -1489,20 +1279,20 @@ const page7 = svg0.append("g")
             // Hides the back button if the target page is 1, otherwise shows it.
             d3.selectAll(".backButton").transition()
                 .duration(750)
-                .style("opacity", targetPage === 1 ? 0 : 100)
+                .style("opacity", targetPage === 1 ? 0 : 1)
                 .style("pointer-events", targetPage === 1 ? "none" : "auto");
             d3.selectAll(".backButtonText").transition()
                 .duration(750)
-                .style("opacity", targetPage === 1 ? 0 : 100);
+                .style("opacity", targetPage === 1 ? 0 : 1);
 
             // Hides the forward button if the target page is 7, otherwise shows it.
             d3.selectAll(".forwardButton").transition()
                 .duration(750)
-                .style("opacity", targetPage === 7 ? 0 : 100)
+                .style("opacity", targetPage === 7 ? 0 : 1)
                 .style("pointer-events", targetPage === 7 ? "none" : "auto");
             d3.selectAll(".forwardButtonText").transition()
                 .duration(750)
-                .style("opacity", targetPage === 7 ? 0 : 100);
+                .style("opacity", targetPage === 7 ? 0 : 1);
 
             currentPage = targetPage;
         }
