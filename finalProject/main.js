@@ -688,24 +688,23 @@ const page6 = svg0.append("g")
     .style("pointer-events", "none");
 
     //Page 6 - Parallel Coordinates 1
-    //CONTENT FOR PAGE 6 START    
-    page6.append("text")
+    //CONTENT FOR PAGE 6 START   
+    
+     page6.append("foreignObject")
         .attr("class", "page6")
         .attr("x", 50)
-        .attr("y", height - 60)
-        .text("Parallel coordinates plot for lung cancer risk factors. Each line represents the data of 1 patient. For more information on the axis labels, go back to page 2.")
+        .attr("y", height - 120)
+        .attr("width", width - 200)
+        .attr("height", height - 200)
+        .append("xhtml:div")
         .style("font-size", "20px")
         .attr("alignment-baseline","middle")
-        .style("fill", "#fff");
+        .style("color", "#f1e3dd")
+        .html(`
 
-    page6.append("text")
-        .attr("class", "page6")
-        .attr("x", 50)
-        .attr("y", height - 80)
-        .text("Each line represents an individual patient profile across nine quantitative variables, color-coded by the categorical outcome of Cancer Risk (red for High Risk, blue for Low Risk).")
-        .style("font-size", "20px")
-        .attr("alignment-baseline","middle")
-        .style("fill", "#f1e3dd");
+            <p>Each line represents an individual patient profile across nine quantitative variables, color-coded by the categorical outcome of Cancer Risk (red for High Risk, blue for Low Risk).</p>
+            <p>Parallel coordinates plot for lung cancer risk factors. Each line represents the data of 1 patient. For more information on the axis labels, go back to page 2.</p>
+        `);
 
 // Define 2 colors to represent the outputs:
 // red for high risk, blue for low risk
