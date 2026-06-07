@@ -92,10 +92,33 @@ const page2 = svg0.append("g")
         .attr("class", "page2")
         .attr("x", 50)
         .attr("y", 80)
-        .text("Understanding the Data: Key Risk Factors for Lung Cancer")
+        .text("Scatterplot Insight")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
+
+    page2.append("foreignObject")
+        .attr("class", "page2")
+        .attr("x", 0)
+        .attr("y", 150)
+        .attr("width", width-200)
+        .attr("height", height - 200)
+        .append("xhtml:div")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("color", "#f1e3dd")
+        .html(` 
+        <p>Feature connection example: Oxygen Saturation and Average Cigarettes Per Day</p>
+        <p>Viewing features in connection with each other can provide insights missed by analyzing them separately.</p>
+        <p>In this view of our scatterplot, you can see that a high number of cigarettes per day will generally indicate an increased risk of lung cancer. This is consistent with our coefficient findings. However, it's important to note that if oxygen saturation is high, cigarettes per day may not be an effective indicator of increased risk, even if it is high.</p>
+        `);
+
+    page2.append("image")
+            .attr("href", "Images/scatterPlotInsight.png")
+            .attr("x", 0)
+            .attr("y", height/2)
+            .attr("width", width/2)
+            .attr("height", height/2);
 
     //CONTENT FOR PAGE 2 END
 
@@ -134,7 +157,7 @@ const page4 = svg0.append("g")
         .attr("class", "page4")
         .attr("x", 50)
         .attr("y", 80)
-        .text("TEXT FOR PAGE 4")
+        .text("Understanding the Data: Key Risk Factors for Lung Cancer")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
@@ -142,29 +165,78 @@ const page4 = svg0.append("g")
     page4.append("foreignObject")
         .attr("class", "page4")
         .attr("x", 0)
-        .attr("y", 150)
-        .attr("width", width-200)
+        .attr("y", 100)
+        .attr("width", width-250)
         .attr("height",  height - 200)
         .append("xhtml:div")
-        .style("font-size", "25px")
+        .style("font-size", "20px")
         .attr("alignment-baseline","middle")
         .style("color", "#f1e3dd")
         .html(`
-            <p>From our data, we've determined that the following factors contribute most to a risk of lung cancer:</p>
-            
-            <p>Age: Older individuals tend to be higher risk, likely due to cumulative exposure to risk factors and age-related decline in lung function.</p>
-            <p>Smoking Years: The number of years a patient has smoked.</p>
-            <p>Cigarettes Per Day: The average number of cigarettes a patient smokes per day.</p>
-            <p>Pack Years: A cumulative measurement which estimates a person's total lifetime exposure to cigarette smoking</p>
-            <p>Air Pollution Index: The level of air pollution in a patient's environment.</p>
-            <p>BMI: Body Mass Index, a measure of body fat based on height and weight.</p>
-            <p>O2 Saturation: The percentage of oxygen in a patient's blood.</p>
-            <p>FEV1: Forced Expiratory Volume in 1 second, a measure of lung capacity and function.</p>
-            <p>CRP Level: C-reactive protein level, higher levels suggest increased inflammatory activity or risk of certain diseases.</p>
-            <p>Exercise Hours Per Week: The average number of hours a patient exercises per week.</p>
-            <p>Alcohol Units Per Week: The average amount of alcohol a patient consumes per week.</p>
-            <p>Education Years: The number of years of education a patient has completed.</p>
+            <p>Our dataset has a number of features. Some of the labels aren't self explanatory; we include the full labels as listed on Kaggle here for clarity.</p>
+            <p>We use a select number of these features for our scatterplot and parallel coordinate graph 1, and they are all present in parallel coordinate graph 2 to display the signficance of each feature for determining the target variable.</p>
         `);
+
+    page4.append("foreignObject")
+        .attr("class", "page4")
+        .attr("x", 0)
+        .attr("y", 220)
+        .attr("width", width/4)
+        .attr("height",  height)
+        .append("xhtml:div")
+        .style("font-size", `${width * 0.012}px`)
+        .attr("alignment-baseline","middle")
+        .style("color", "#f1e3dd")
+        .html(`
+            <ul>
+            <li>age - Age of the individual in years</li>
+            <li>gender - Biological sex (0 = Female, 1 = Male)</li>
+            <li>education_years - Total years of formal education completed</li>
+            <li>income_level - Socioeconomic status on an ordinal scale (1 = lowest, 5 = highest)</li>
+            <li>smoker - Indicates whether the individual has a history of smoking (0 = No, 1 = Yes)</li>
+            <li>smoking_years - Total number of years the individual has smoked</li>
+            <li>cigarettes_per_day - Average number of cigarettes smoked per day</li>
+            <li>pack_years - Cumulative smoking exposure combining duration and intensity</li>
+            <li>passive_smoking	- Exposure to secondhand smoke (0 = No, 1 = Yes)</li>
+            <li>air_pollution_index - Air quality index representing long-term pollution exposure</li>
+            <li>occupational_exposure - Exposure to hazardous substances at work (0 = No, 1 = Yes)</li>
+            <li>radon_exposure - History of radon exposure (0 = No, 1 = Yes)</li>
+            <li>family_history_cancer - Family history of cancer (0 = No, 1 = Yes)</li>
+            <li>copd - Diagnosis of chronic obstructive pulmonary disease (0 = No, 1 = Yes)</li>
+            <li>asthma - History of asthma (0 = No, 1 = Yes)</li>
+            </ul>
+        `);
+
+        page4.append("foreignObject")
+        .attr("class", "page4")
+        .attr("x", width/2 - 100)
+        .attr("y", 220)
+        .attr("width", width/4)
+        .attr("height",  height)
+        .append("xhtml:div")
+        .style("font-size", `${width * 0.012}px`)
+        .attr("alignment-baseline","middle")
+        .style("color", "#f1e3dd")
+        .html(`
+            <ul>
+            <li>previous_tb - History of tuberculosis infection (0 = No, 1 = Yes)</li>
+            <li>chronic_cough - Presence of long-term cough symptoms (0 = No, 1 = Yes)</li>
+            <li>chest_pain - Reports of chest pain (0 = No, 1 = Yes)</li>
+            <li>shortness_of_breath - Presence of breathing difficulty (0 = No, 1 = Yes)</li>
+            <li>fatigue - Persistent fatigue symptoms (0 = No, 1 = Yes)</li>
+            <li>bmi - Body mass index category value</li>
+            <li>oxygen_saturation - Blood oxygen saturation level (%)</li>
+            <li>fev1_x10 - Lung function measure derived from forced expiratory volume</li>
+            <li>crp_level - C-reactive protein level indicating inflammation</li>
+            <li>xray_abnormal - Abnormal findings in chest imaging (0 = No, 1 = Yes)</li>
+            <li>exercise_hours_per_week	- Average weekly physical activity duration</li>
+            <li>diet_quality - Overall dietary quality score (1 = poor, 5 = excellent)</li>
+            <li>alcohol_units_per_week - Average alcohol consumption per week</li>
+            <li>healthcare_access - Access to healthcare services (1 = poor, 5 = excellent)</li>
+            <li>lung_cancer_risk - Target variable indicating elevated lung cancer risk (0 = No, 1 = Yes)</li>
+            </ul>
+        `);
+    
 
     //CONTENT FOR PAGE 4 END
 
@@ -703,7 +775,7 @@ const page6 = svg0.append("g")
         .html(`
 
             <p>Each line represents an individual patient profile across nine quantitative variables, color-coded by the categorical outcome of Cancer Risk (red for High Risk, blue for Low Risk).</p>
-            <p>Parallel coordinates plot for lung cancer risk factors. Each line represents the data of 1 patient. For more information on the axis labels, go back to page 2.</p>
+            <p>Parallel coordinates plot for lung cancer risk factors. Each line represents the data of 1 patient. For more information on the axis labels, go back to page 4.</p>
         `);
 
 // Define 2 colors to represent the outputs:
@@ -1164,7 +1236,7 @@ const page7 = svg0.append("g")
         .attr("class", "page7")
         .attr("x", 50)
         .attr("y", height - 80)
-        .text("CAPTION")
+        .text("This graph shows feature importance from our logistic regression model. (Refer to page 4 for detail on axis labels.)")
         .style("font-size", "20px")
         .attr("alignment-baseline","middle")
         .style("pointer-events", "none")
