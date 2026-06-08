@@ -96,6 +96,23 @@ const page2 = svg0.append("g")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
+    
+    // Placeholder for static scatterplot, image url pulled from random site as example, will replace with our own
+    // scatterplot image once we have it ready. (can convert to url from local image file if needed)
+    
+    page2.append("foreignObject")
+        .attr("class", "page2")
+        .attr("x", 0)
+        .attr("y", height - 200)
+        .attr("width", width-200)
+        .attr("height", height - 200)
+        .append("xhtml:div")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("color", "#f1e3dd")
+        .html(`
+            <p>Placeholder text for Page 2</p>
+        `);
 
     page2.append("foreignObject")
         .attr("class", "page2")
@@ -141,6 +158,20 @@ const page3 = svg0.append("g")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
+    
+    page3.append("foreignObject")
+        .attr("class", "page3")
+        .attr("x", 0)
+        .attr("y", height - 200)
+        .attr("width", width-200)
+        .attr("height", height - 200)
+        .append("xhtml:div")
+        .style("font-size", "25px")
+        .attr("alignment-baseline","middle")
+        .style("color", "#f1e3dd")
+        .html(`
+            <p>Placeholder text for Page 3</p>
+        `);
 
     page3.append("foreignObject")
         .attr("class", "page3")
@@ -315,18 +346,18 @@ const page5 = svg0.append("g")
         "alcohol_units_per_week", "education_years"
     ];
     const FIELD_LABELS = {
-        age: "Age",
-        smoking_years: "Smoking Years",
-        cigarettes_per_day: "Cigarettes/Day",
-        pack_years: "Pack Years",
-        air_pollution_index: "Air Pollution Index",
-        bmi: "BMI",
-        oxygen_saturation: "O₂ Saturation (%)",
-        fev1_x10: "FEV1 ×10",
-        crp_level: "CRP Level",
-        exercise_hours_per_week: "Exercise Hrs/Week",
-        alcohol_units_per_week: "Alcohol Units/Week",
-        education_years: "Education Years",
+        age: "Age - patient age in years",
+        smoking_years: "Smoking Years - years the patient has smoked",
+        cigarettes_per_day: "Cigarettes/Day - average cigarettes smoked per day",
+        pack_years: "Pack Years - cumulative smoking exposure",
+        air_pollution_index: "Air Pollution Index - local air pollution exposure",
+        bmi: "BMI - body mass index",
+        oxygen_saturation: "O₂ Saturation (%) - blood oxygen level",
+        fev1_x10: "FEV1 ×10 - lung function / forced expiratory volume",
+        crp_level: "CRP Level - inflammation marker",
+        exercise_hours_per_week: "Exercise Hrs/Week - weekly exercise hours",
+        alcohol_units_per_week: "Alcohol Units/Week - weekly alcohol units",
+        education_years: "Education Years - years of schooling",
     };
  
     // Scatterplot state
