@@ -77,7 +77,7 @@ const page1 = svg0.append("g")
 
             <p>We've used the dataset to train a logistic regression machine learning model. This works by feeding the model data from the dataset, and it learns which features can be used to predict lung cancer risk based on the target variable. This is expressed through coefficients, which represent significance in the outcome, and odds ratios, which communicate whether a higher value increases or decreases lung cancer risk based on whether the ratio is above or below 1.</p>
 
-            <p>Based on the model's coefficients & odds ratios, we've identified top contributing factors, and aim to visualize their relationships using the following.</p>
+            <p>Based on the model's coefficients & odds ratios, we've identified top contributing factors. We visualize features using the following.</p>
             
             <p>Scatterplot: We compare different features against each other to get an idea of how they interact.</p>
             <p>Parallel Coordinate Plot 1: We visualize some of these top factors and show their connection to lung cancer risk.</p>
