@@ -142,6 +142,10 @@ document.body.style.background = "#2F353B";
         .text("Negative Effect")
         .style("fill", "#f1e3dd");
 
+    const pctooltip = d3.select("body").append("div")
+        .style("position", "absolute")
+        .style("visibility", "hidden")
+
     // hover highlight feature 
     g.selectAll("path")
         .on("mouseover", function() {
@@ -152,12 +156,24 @@ document.body.style.background = "#2F353B";
             d3.select(this)
                 .attr("opacity", 1)
                 .attr("stroke-width", 3);
+
+            pctooltip
+                .style("visibility", "visible");
         })
         .on("mouseout", function() {
 
             d3.selectAll("path")
                 .attr("opacity", 0.4)
                 .attr("stroke-width", 1.5);
+
+            pctooltip
+                .style("visibility", "hidden");
+        })
+        .on("mousemove", function(event, d) {
+            pctooltip
+                .style("top", (event.offsetY-30)+"px").style("left",(event.offsetX+10)+"px")
+                .html(`Feature: ${d.Feature}`)
+                .style("color", "#f1e3dd");
         });
 
 }).catch(error => {
