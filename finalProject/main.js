@@ -207,7 +207,7 @@ const page3 = svg0.append("g")
             .attr("href", "Images/parallelcoord2Insight.png")
             .attr("x", width/2 - 50)
             .attr("y", height/2)
-            .attr("width", width/2)
+            .attr("width", width/2 - 100)
             .attr("height", height/2);
 
     //CONTENT FOR PAGE 3 END
