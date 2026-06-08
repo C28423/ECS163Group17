@@ -99,20 +99,6 @@ const page2 = svg0.append("g")
     
     // Placeholder for static scatterplot, image url pulled from random site as example, will replace with our own
     // scatterplot image once we have it ready. (can convert to url from local image file if needed)
-    
-    page2.append("foreignObject")
-        .attr("class", "page2")
-        .attr("x", 0)
-        .attr("y", height - 200)
-        .attr("width", width-200)
-        .attr("height", height - 200)
-        .append("xhtml:div")
-        .style("font-size", "25px")
-        .attr("alignment-baseline","middle")
-        .style("color", "#f1e3dd")
-        .html(`
-            <p>Placeholder text for Page 2</p>
-        `);
 
     page2.append("foreignObject")
         .attr("class", "page2")
