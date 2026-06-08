@@ -321,7 +321,7 @@ const page5 = svg0.append("g")
         .attr("class", "page5")
         .attr("x", 50)
         .attr("y", height - 110)
-        .text("Interactive Scatterplot, Blue dots represent patients not at elevated risk, red dots represent patients at elevated risk.")
+        .text("Interactive Scatterplot, blue dots represent patients not at elevated risk, red dots represent patients at elevated risk. Double click with zoom selected to zoom.")
         .style("font-size", "20px")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
