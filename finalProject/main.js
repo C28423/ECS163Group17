@@ -1198,17 +1198,18 @@ const page7 = svg0.append("g")
         );
     }
 
-    g.selectAll("path")
+    // draw lines
+     const lines = g.selectAll("path")
         .data(data)
         .enter()
         .append("path")
         .attr("d", path)
         .attr("fill", "none")
-        .attr("stroke",
-            d => d.Coefficient >= 0
+        .attr("stroke", function(d) {
+            return d.Coefficient >= 0
                 ? "#71d4f8"
-                : "#f87171"
-        )
+                : "#f87171";
+        })
         .attr("stroke-width", 1.5)
         .attr("opacity", 0.4);
 
@@ -1268,22 +1269,47 @@ const page7 = svg0.append("g")
         .text("Negative Effect")
         .style("fill", "#f1e3dd");
 
-    // hover highlight feature 
-    g.selectAll("path")
-        .on("mouseover", function() {
+    const tooltip = d3.select("body")
+        .append("div")
+        .style("position", "absolute")
+        .style("visibility", "hidden")
+        .style("pointer-events", "none")
+        .style("background", "#1f262c")
+        .style("padding", "8px")
+        .style("border-radius", "4px")
+        .style("font-size", "12px")
+        .style("color", "#f1e3dd");
 
-            d3.selectAll("path")
-                .attr("opacity", 0.08);
+    // hover interactions
+    lines
+        .on("mouseover", function(d) {
+            lines.attr("opacity", 0.08);
 
             d3.select(this)
                 .attr("opacity", 1)
                 .attr("stroke-width", 3);
+
+            tooltip
+                .style("visibility", "visible")
+                .html(
+                    "<strong>" + (d.Feature || "Unknown Predictor") + "</strong><br>" +
+                    "Coefficient: " + d.Coefficient.toFixed(3) + "<br>" +
+                    "Odds Ratio: " + d["Odds Ratio"].toFixed(3) + "<br>" +
+                    "Importance: " + d.AbsCoefficient.toFixed(3)
+                );
+        })
+        .on("mousemove", function() {
+            const event = d3.event;
+            tooltip
+                .style("top", (event.pageY - 20) + "px")
+                .style("left", (event.pageX + 15) + "px");
         })
         .on("mouseout", function() {
-
-            d3.selectAll("path")
+            lines
                 .attr("opacity", 0.4)
                 .attr("stroke-width", 1.5);
+
+            tooltip.style("visibility", "hidden");
         });
 
 }).catch(error => {
