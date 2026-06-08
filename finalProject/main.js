@@ -54,6 +54,9 @@ const page1 = svg0.append("g")
         .style("font-size", "50px")
         .attr("alignment-baseline","middle")
         .style("fill", "#f1e3dd");
+    
+    page1.append("text")
+        
 
     page1.append("foreignObject")
         .attr("class", "page1")
@@ -66,15 +69,19 @@ const page1 = svg0.append("g")
         .attr("alignment-baseline","middle")
         .style("color", "#f1e3dd")
         .html(`
-            <p>Using a dataset of health metrics, we aim to visualize factors that affect lung cancer risk.</p>
-            
-            <p>We've used the dataset to train a logistic regression machine learning model. This works by feeding the model data from the dataset, and it learns which features can be used to predict lung cancer risk based on the target variable. This is expressed through coefficients, which represent significance in the outcome, and odds ratios, which communicate whether a higher value increases or decreases lung cancer risk based on whether the ratio is above or below 1.</p>
-            
-            <p>Based on the model's coefficients & odds ratios, we've identified top contributing factors.</p>
+            <p>Lung cancer is one of the leading causes of cancer-related deaths worldwide.</p>
 
+            <p>Using a dataset of health metrics, we aim to visualize factors that affect lung cancer risk.</p>
+
+            <p>This dataset is important because it contains a large and diverse set of real-world health, lifestyle, and environmental measurements across thousands of individuals. By capturing multiple dimensions of a person's daily life and physical condition, it allows us to study how different factors interact rather than looking at them in isolation.</p>
+
+            <p>We've used the dataset to train a logistic regression machine learning model. This works by feeding the model data from the dataset, and it learns which features can be used to predict lung cancer risk based on the target variable. This is expressed through coefficients, which represent significance in the outcome, and odds ratios, which communicate whether a higher value increases or decreases lung cancer risk based on whether the ratio is above or below 1.</p>
+
+            <p>Based on the model's coefficients & odds ratios, we've identified top contributing factors, and aim to visualize their relationships using the following.</p>
+            
+            <p>Scatterplot: We compare different features against each other to get an idea of how they interact.</p>
             <p>Parallel Coordinate Plot 1: We visualize some of these top factors and show their connection to lung cancer risk.</p>
             <p>Parallel Coordinate Plot 2: We visualize coefficients of different factors to compare them.</p>
-            <p>Scatterplot: We compare different features against each other to get an idea of how they interact.</p>
         `);
     //CONTENT FOR PAGE 1 END
 
