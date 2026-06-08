@@ -72,17 +72,18 @@ document.body.style.background = "#2F353B";
         );
     }
 
-    g.selectAll("path")
+     // draw lines
+     const lines = g.selectAll("path")
         .data(data)
         .enter()
         .append("path")
         .attr("d", path)
         .attr("fill", "none")
-        .attr("stroke",
-            d => d.Coefficient >= 0
+        .attr("stroke", function(d) {
+            return d.Coefficient >= 0
                 ? "#71d4f8"
-                : "#f87171"
-        )
+                : "#f87171";
+        })
         .attr("stroke-width", 1.5)
         .attr("opacity", 0.4);
 
@@ -142,40 +143,54 @@ document.body.style.background = "#2F353B";
         .text("Negative Effect")
         .style("fill", "#f1e3dd");
 
-    const pctooltip = d3.select("body").append("div")
+    const tooltip = d3.select("body")
+        .append("div")
         .style("position", "absolute")
         .style("visibility", "hidden")
+        .style("pointer-events", "none")
+        .style("background", "#1f262c")
+        .style("padding", "8px")
+        .style("border-radius", "4px")
+        .style("font-size", "12px")
+        .style("color", "#f1e3dd");
 
-    // hover highlight feature 
-    g.selectAll("path")
-        .on("mouseover", function() {
+    // hover interactions
+    lines
+        .on("mouseover", function(d) {
 
-            d3.selectAll("path")
+            lines 
                 .attr("opacity", 0.08);
 
             d3.select(this)
                 .attr("opacity", 1)
                 .attr("stroke-width", 3);
 
-            pctooltip
-                .style("visibility", "visible");
+            tooltip
+                .style("visibility", "visible")
+                .html(
+                    "<strong>" + (d.Feature || "Unknown Predictor") + "</strong><br>" +
+                    "Coefficient: " + d.Coefficient.toFixed(3) + "<br>" +
+                    "Odds Ratio: " + d["Odds Ratio"].toFixed(3) + "<br>" +
+                    "Importance: " + d.AbsCoefficient.toFixed(3)
+                );
         })
+
+        .on("mousemove", function(d) {
+            tooltip
+                .style("top", (d3.event.pageY - 20) + "px")
+                .style("left", (d3.event.pageX + 15) + "px");
+        })
+
         .on("mouseout", function() {
 
-            d3.selectAll("path")
-                .attr("opacity", 0.4)
-                .attr("stroke-width", 1.5);
+           lines
+            .attr("opacity", 0.4)
+            .attr("stroke-width", 1.5);
 
-            pctooltip
+            tooltip
                 .style("visibility", "hidden");
-        })
-        .on("mousemove", function(event, d) {
-            pctooltip
-                .style("top", (event.offsetY-30)+"px").style("left",(event.offsetX+10)+"px")
-                .html(`Feature: ${d.Feature}`)
-                .style("color", "#f1e3dd");
         });
-
+    
 }).catch(error => {
     console.error("Error loading data:", error);
 });
